@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "malvani-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5500", "--directory", "C:/Users/iamwe/Desktop/malvani-gajalee"],
+      "port": 5500
+    }
+  ]
+}
