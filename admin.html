@@ -268,7 +268,7 @@
   <script src="js/firebase-config.js"></script>
   
   <script>
-    // Security PIN Lock Logic (Default PIN: 1234)
+    // Security PIN Lock Logic (Default PIN: 1098)
     const adminLock = document.getElementById("adminLock");
     const pinInput = document.getElementById("pinInput");
     const unlockBtn = document.getElementById("unlockBtn");
@@ -278,7 +278,7 @@
     pinInput.focus();
 
     const checkPin = () => {
-      if (pinInput.value === "1234") {
+      if (pinInput.value === "1098") {
         adminLock.style.display = "none";
         sessionStorage.setItem("mg_authenticated", "true");
         loadBookings();

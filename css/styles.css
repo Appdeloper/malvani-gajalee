@@ -805,19 +805,22 @@ a { color: inherit; text-decoration: none; }
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  width: 330px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px -15px rgba(43, 23, 21, 0.35);
+  width: 340px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 18px;
+  box-shadow: 0 30px 80px -15px rgba(43, 23, 21, 0.38);
   border-top: 4px solid var(--gold);
   z-index: 999;
-  padding: 1.3rem;
-  animation: widgetSlideUp 0.5s var(--ease) forwards;
+  padding: 1.4rem;
+  animation: widgetSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   font-family: var(--ff-body);
 }
 
 @keyframes widgetSlideUp {
-  from { transform: translateY(40px); opacity: 0; }
+  from { transform: translateY(50px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
@@ -826,24 +829,27 @@ a { color: inherit; text-decoration: none; }
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.8rem;
-  border-bottom: 1px solid var(--cream-2);
+  border-bottom: 1px solid rgba(43, 23, 21, 0.1);
   padding-bottom: 0.5rem;
 }
 
 .booking-widget__header h4 {
   font-family: var(--ff-head);
   color: var(--maroon);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .booking-widget__close {
   background: none;
   border: none;
-  font-size: 1.6rem;
-  line-height: 1;
+  font-size: 1.8rem;
+  line-height: 0.7;
   color: var(--ink-soft);
   cursor: pointer;
-  padding: 0 0.2rem;
+  padding: 0.2rem;
+  transition: color 0.2s;
 }
 
 .booking-widget__close:hover {
@@ -853,27 +859,87 @@ a { color: inherit; text-decoration: none; }
 .booking-widget__body {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.8rem;
 }
 
 .booking-widget__id {
   font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.2rem;
+}
+
+.booking-widget__id strong {
   color: var(--ink);
+  font-weight: 600;
+}
+
+/* Premium Animated Checkmark SVG */
+.booking-widget__tick-container {
+  display: flex;
+  justify-content: center;
+  margin: 0.6rem 0;
+  animation: scaleIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.checkmark-svg {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 4;
+  stroke: var(--green);
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px var(--green);
+  animation: fillCircle .4s ease-in-out .4s forwards, scaleCheckmark .3s ease-in-out .9s both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+  stroke: var(--green);
+  fill: none;
+  animation: strokeCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke-width: 4;
+  stroke: var(--green);
+  animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes strokeCircle {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes strokeCheck {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes fillCircle {
+  100% { box-shadow: inset 0px 0px 0px 30px rgba(232, 248, 245, 0.8); }
 }
 
 .booking-widget__status-row {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--ink-soft);
 }
 
 .status-badge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 20px;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -895,9 +961,17 @@ a { color: inherit; text-decoration: none; }
 }
 
 .widget-note {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--ink-soft);
-  margin-top: 0.4rem;
-  font-style: italic;
+  line-height: 1.5;
+  margin-top: 0.3rem;
+  border-top: 1px dashed rgba(43, 23, 21, 0.08);
+  padding-top: 0.6rem;
 }
+
+.widget-note strong {
+  color: var(--maroon);
+  font-weight: 600;
+}
+
 

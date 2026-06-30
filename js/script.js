@@ -55,6 +55,7 @@
   const widgetId = document.getElementById("widgetId");
   const widgetStatus = document.getElementById("widgetStatus");
   const widgetNote = document.getElementById("widgetNote");
+  const widgetTick = document.getElementById("widgetTick");
   const closeWidget = document.getElementById("closeWidget");
 
   let activeUnsubscribe = null;
@@ -67,13 +68,16 @@
     widgetStatus.className = "status-badge";
     if (booking.status === "Pending") {
       widgetStatus.classList.add("status-badge--pending");
-      widgetNote.textContent = "Your request is pending restaurant approval.";
+      widgetNote.innerHTML = "<strong>Gajali Request Received 🌊</strong><br>Chef Nilesh is checking the fresh catch — we'll confirm your table shortly!";
+      if (widgetTick) widgetTick.hidden = true;
     } else if (booking.status === "Approved") {
       widgetStatus.classList.add("status-badge--approved");
-      widgetNote.textContent = "Your table is confirmed! See you soon.";
+      widgetNote.innerHTML = "<strong>Reservation Confirmed! ✓</strong><br>Your table is set. Chef Nilesh is preparing the hand-ground masalas. See you soon!";
+      if (widgetTick) widgetTick.hidden = false;
     } else if (booking.status === "Disapproved") {
       widgetStatus.classList.add("status-badge--disapproved");
-      widgetNote.textContent = "Sorry, we are fully booked or unable to confirm.";
+      widgetNote.innerHTML = "<strong>Reservation Declined ✗</strong><br>We are fully booked at this hour. Please call us directly or try another time.";
+      if (widgetTick) widgetTick.hidden = true;
     }
     
     widget.hidden = false;
@@ -140,6 +144,16 @@
           note.scrollIntoView({ behavior: "smooth", block: "nearest" });
           form.reset();
           setTimeout(() => (note.hidden = true), 6000);
+
+          // WhatsApp redirection logic
+          const waMessage = `Hello Malvani Gajalee! I'd like to confirm my table reservation:\n\nBooking ID: ${bookingId}\nName: ${booking.name}\nTiming: ${booking.date} at ${booking.time}\nGuests: ${booking.guests} People\nContact Number: ${booking.phone}\nPreference: ${booking.notes || "Seafood Focus"}`;
+          const encodedWa = encodeURIComponent(waMessage);
+          const waUrl = `https://wa.me/919921154312?text=${encodedWa}`;
+          
+          // Automatically open WhatsApp in a new window after 1.5 seconds
+          setTimeout(() => {
+            window.open(waUrl, "_blank");
+          }, 1500);
         }
       } catch (error) {
         console.error("Error creating reservation:", error);
