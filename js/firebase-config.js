@@ -68,7 +68,7 @@ const seedMenuItems = [
     name: "Paneer Kurcharan",
     category: "starters-veg",
     description: "Shredded paneer tossed in a spicy onion-tomato masala, semi-dry, finished with herbs over onion rings.",
-    imageUrl: "images/kurkuri.jpg",
+    imageUrl: "images/kurcharan.jpg",
     isVeg: true,
     spiceLevel: "medium",
     tags: [],
@@ -80,7 +80,7 @@ const seedMenuItems = [
     name: "Murgh Gilafee",
     category: "starters-nonveg",
     description: "Char-grilled minced chicken seekh studded with colourful bell peppers and onion.",
-    imageUrl: "images/tandoori.jpg",
+    imageUrl: "images/gilafee.jpg",
     isVeg: false,
     spiceLevel: "medium",
     tags: ["Bestseller"],
@@ -104,7 +104,7 @@ const seedMenuItems = [
     name: "Fruit Punch",
     category: "beverages",
     description: "Chilled blended mixed-fruit mocktail, served tall.",
-    imageUrl: "images/dishes.jpg",
+    imageUrl: "images/fruit-punch.jpg",
     isVeg: true,
     spiceLevel: "mild",
     tags: ["Chef's Special"],
@@ -159,7 +159,19 @@ if (!isMockMode) {
   seedFirestoreIfEmpty();
 } else {
   // Setup LocalStorage seed data
-  if (!localStorage.getItem("mg_menu_items")) {
+  let localItems = null;
+  try {
+    localItems = JSON.parse(localStorage.getItem("mg_menu_items"));
+  } catch (e) {}
+
+  const needsUpgrade = !localItems || localItems.some(item => {
+    if (item.id === "dish-2" && item.imageUrl === "images/kurkuri.jpg") return true;
+    if (item.id === "dish-3" && item.imageUrl === "images/tandoori.jpg") return true;
+    if (item.id === "dish-5" && item.imageUrl === "images/dishes.jpg") return true;
+    return false;
+  });
+
+  if (needsUpgrade) {
     localStorage.setItem("mg_menu_items", JSON.stringify(seedMenuItems));
   }
   if (!localStorage.getItem("mg_categories")) {
