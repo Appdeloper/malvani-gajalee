@@ -92,7 +92,7 @@ const seedMenuItems = [
     name: "Murgh Badami Shorba",
     category: "soups",
     description: "Velvety almond-based chicken soup, lightly spiced and creamy.",
-    imageUrl: "images/curry.jpg",
+    imageUrl: "images/shorba.jpg",
     isVeg: false,
     spiceLevel: "mild",
     tags: [],
@@ -167,6 +167,7 @@ if (!isMockMode) {
   const needsUpgrade = !localItems || localItems.some(item => {
     if (item.id === "dish-2" && item.imageUrl === "images/kurkuri.jpg") return true;
     if (item.id === "dish-3" && item.imageUrl === "images/tandoori.jpg") return true;
+    if (item.id === "dish-4" && item.imageUrl === "images/curry.jpg") return true;
     if (item.id === "dish-5" && item.imageUrl === "images/dishes.jpg") return true;
     return false;
   });
