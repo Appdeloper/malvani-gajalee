@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Review your cart and confirm your online order or table pre-order at Malvani Gajalee." />
+  <meta name="theme-color" content="#6b1414" />
+  <title>Checkout · Malvani Gajalee · Dombivli</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .cart-empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--ink-soft);
+    }
+    
+    .checkout-form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    
+    .form-group-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    @media (max-width: 560px) {
+      .form-group-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .slot-alert {
+      background: #fdf2f2;
+      color: #9b1c1c;
+      border: 1px solid #fbd5d5;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ TOP STRIP ============ -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span class="topbar__item">🦞 Multi-Cuisine Seafood Restaurant</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">📍 Dombivli, Maharashtra</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">⏱ Open Daily · 11:00 AM – 11:30 PM</span>
+    </div>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="brand" aria-label="Malvani Gajalee home">
+        <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+        <span class="brand__mark" style="display:none">🐟</span>
+        <span class="brand__text">
+          <span class="brand__name">Malvani Gajalee</span>
+          <span class="brand__tag">by Chef Nilesh Sawant</span>
+        </span>
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html#story">The Gajali</a>
+        <a href="index.html#specialties">Specialties</a>
+        <a href="menu.html">Menu</a>
+        <a href="index.html#chef">The Chef</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#visit">Visit</a>
+        <a href="reserve.html" class="btn btn--gold nav__cta">Book a Table</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ CHECKOUT CONTAINER ============ -->
+  <main class="checkout-container" id="checkoutContainer">
+    <!-- Cart Summary Column -->
+    <div class="checkout-card" id="cartCard">
+      <h2 class="checkout-title">Review Order</h2>
+      <div id="cartContent">
+        <!-- Injected Dynamically -->
+      </div>
+    </div>
+
+    <!-- Details/Checkout Form Column -->
+    <div class="checkout-card" id="formCard">
+      <h2 class="checkout-title">Customer Details</h2>
+      <form id="checkoutForm" class="checkout-form-section" novalidate>
+        <!-- Mode Tabs -->
+        <div class="mode-tabs">
+          <button type="button" class="mode-tab active" id="tabDineIn">Dine-In Table</button>
+          <button type="button" class="mode-tab" id="tabTakeaway">Takeaway Pickup</button>
+        </div>
+
+        <div class="field">
+          <label for="cName">Full Name</label>
+          <input type="text" id="cName" placeholder="Enter your name" required />
+        </div>
+
+        <div class="field">
+          <label for="cPhone">Mobile Phone</label>
+          <input type="tel" id="cPhone" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required />
+        </div>
+
+        <!-- Date and Time slots -->
+        <div class="form-group-row">
+          <div class="field">
+            <label for="cDate">Date</label>
+            <input type="date" id="cDate" required />
+          </div>
+          <div class="field">
+            <label for="cSlot">Time Slot</label>
+            <select id="cSlot" required>
+              <option value="" disabled selected>Select a slot</option>
+              <!-- Injected Dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Dine-in Specific Fields -->
+        <div id="dineInFields">
+          <div class="form-group-row">
+            <div class="field">
+              <label for="cPartySize">Party Size (Guests)</label>
+              <select id="cPartySize">
+                <option value="1">1 Person</option>
+                <option value="2">2 People</option>
+                <option value="3" selected>3 People</option>
+                <option value="4">4 People</option>
+                <option value="5">5 People</option>
+                <option value="6">6 People</option>
+                <option value="7">7 People</option>
+                <option value="8">8+ People</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cPref">Seating Preference</label>
+              <select id="cPref">
+                <option value="Indoor">Indoor (Standard)</option>
+                <option value="AC">AC Dining Area</option>
+                <option value="Outdoor">Outdoor Seating</option>
+                <option value="Non-AC">Non-AC Area</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="cNotes">Special Instructions <small>(optional)</small></label>
+          <textarea id="cNotes" rows="2" placeholder="Dietary requests, table location details..."></textarea>
+        </div>
+
+        <!-- Slot full warning container -->
+        <div class="slot-alert" id="slotWarning" hidden>
+          ⚠️ This slot is fully booked for this party size. Please choose a different date or time.
+        </div>
+
+        <!-- Payment Notice -->
+        <div class="pay-note">
+          📌 <strong>Pay at Restaurant on Arrival</strong><br />
+          No online payment required. Pay via cash, card, or UPI when you arrive at the counter or dine in.
+        </div>
+
+        <button type="submit" class="btn btn--gold btn--block btn--lg" id="submitOrderBtn">Place Order</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="visit">
+    <div class="footer__top">
+      <div class="footer__col">
+        <a href="index.html" class="brand brand--footer">
+          <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo brand__logo--footer"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+          <span class="brand__mark" style="display:none">🐟</span>
+          <span class="brand__text">
+            <span class="brand__name">Malvani Gajalee</span>
+            <span class="brand__tag">Multi-Cuisine Seafood Restaurant</span>
+          </span>
+        </a>
+        <p class="footer__about">It’s not just a meal — it’s the taste of Malvan
+          and the joy of conversations. Brought to Dombivli by Chef Nilesh Sawant.</p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Visit Us</h5>
+        <p><a href="https://maps.app.goo.gl/nJjEmyBHknPd1KZ38" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none">Malvani Gajalee<br />Dombivli (East),<br />Maharashtra 421201</a></p>
+        <p><a href="tel:+919921154312">+91 99211 54312</a></p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Hours</h5>
+        <p>Monday – Sunday<br />11:00 AM – 11:30 PM</p>
+        <h5 class="footer__h5--mt">Follow</h5>
+        <div class="footer__social">
+          <a href="https://www.instagram.com/malvanigajalee/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+        </div>
+      </div>
+
+      <div class="footer__col footer__map">
+        <iframe
+          title="Malvani Gajalee location"
+          src="https://www.google.com/maps?q=MALVANI+GAJALEE,Dombivli,Maharashtra&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© <span id="year"></span> Malvani Gajalee · Dombivli. All rights reserved.</p>
+      <p class="footer__credit">“गजाली” — joyful conversations, made flavorful.</p>
+    </div>
+  </footer>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/env.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // Elements
+      const navToggle = document.getElementById("navToggle");
+      const nav = document.getElementById("nav");
+      const navLinks = document.getElementById("navLinks");
+      const cartContent = document.getElementById("cartContent");
+      const checkoutForm = document.getElementById("checkoutForm");
+      
+      const tabDineIn = document.getElementById("tabDineIn");
+      const tabTakeaway = document.getElementById("tabTakeaway");
+      const dineInFields = document.getElementById("dineInFields");
+      const slotWarning = document.getElementById("slotWarning");
+      
+      const dateInput = document.getElementById("cDate");
+      const slotSelect = document.getElementById("cSlot");
+      const partySizeSelect = document.getElementById("cPartySize");
+      const submitOrderBtn = document.getElementById("submitOrderBtn");
+
+      let cart = {};
+      let selectedMode = "dine-in"; // dine-in, takeaway
+
+      // Mobile Menu
+      if (navToggle) {
+        navToggle.addEventListener("click", () => nav.classList.toggle("open"));
+        navLinks.addEventListener("click", (e) => {
+          if (e.target.tagName === "A") nav.classList.remove("open");
+        });
+      }
+
+      // Check date min limit (no past dates)
+      const todayISO = new Date().toISOString().split("T")[0];
+      dateInput.min = todayISO;
+      dateInput.value = todayISO;
+
+      // Mode switching
+      tabDineIn.addEventListener("click", () => {
+        selectedMode = "dine-in";
+        tabDineIn.classList.add("active");
+        tabTakeaway.classList.remove("active");
+        dineInFields.style.display = "block";
+        partySizeSelect.required = true;
+        checkAvailability();
+      });
+
+      tabTakeaway.addEventListener("click", () => {
+        selectedMode = "takeaway";
+        tabTakeaway.classList.add("active");
+        tabDineIn.classList.remove("active");
+        dineInFields.style.display = "none";
+        partySizeSelect.required = false;
+        slotWarning.hidden = true;
+        submitOrderBtn.disabled = false;
+      });
+
+      // Load Cart data from sessionStorage
+      const loadCart = () => {
+        try {
+          const stored = sessionStorage.getItem("mg_cart");
+          if (stored) {
+            cart = JSON.parse(stored);
+          }
+        } catch (e) {
+          console.warn("Could not read cart:", e);
+        }
+
+        renderCart();
+      };
+
+      // Save Cart updates
+      const saveCart = () => {
+        try {
+          sessionStorage.setItem("mg_cart", JSON.stringify(cart));
+        } catch (e) {
+          console.warn("Could not save cart:", e);
+        }
+        renderCart();
+      };
+
+      // Render cart list and quantity adjusters
+      const renderCart = () => {
+        const itemIds = Object.keys(cart);
+        if (itemIds.length === 0) {
+          cartContent.innerHTML = `
+            <div class="cart-empty-state">
+              <p style="margin-bottom:1.5rem">Your cart is empty.</p>
+              <a href="menu.html" class="btn btn--maroon">Go back to Menu</a>
+            </div>
+          `;
+          // Hide form if cart is empty
+          document.getElementById("formCard").style.display = "none";
+          document.getElementById("checkoutContainer").style.gridTemplateColumns = "1fr";
+          return;
+        }
+
+        let html = '<div class="cart-list">';
+        itemIds.forEach(id => {
+          html += `
+            <div class="cart-item">
+              <div class="cart-item__info">
+                <h4>${cart[id].name}</h4>
+              </div>
+              <div class="stepper">
+                <button class="stepper-btn btn-dec" data-id="${id}">-</button>
+                <span class="stepper-val">${cart[id].qty}</span>
+                <button class="stepper-btn btn-inc" data-id="${id}">+</button>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        cartContent.innerHTML = html;
+
+        // Hook up steppers
+        cartContent.querySelectorAll(".btn-inc").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            cart[id].qty++;
+            saveCart();
+          });
+        });
+
+        cartContent.querySelectorAll(".btn-dec").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            cart[id].qty--;
+            if (cart[id].qty <= 0) {
+              delete cart[id];
+            }
+            saveCart();
+          });
+        });
+      };
+
+      // Generate time slots based on service windows: Lunch 12:00 - 15:30, Dinner 19:00 - 23:00
+      const updateSlots = () => {
+        const selectedDate = dateInput.value;
+        const isToday = selectedDate === todayISO;
+        
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+
+        const lunchSlots = ["12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
+        const dinnerSlots = ["19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00"];
+        
+        const allSlots = [...lunchSlots, ...dinnerSlots];
+
+        slotSelect.innerHTML = '<option value="" disabled selected>Select a slot</option>';
+
+        allSlots.forEach(slot => {
+          const [hourStr, minStr] = slot.split(":");
+          const slotHour = parseInt(hourStr, 10);
+          const slotMin = parseInt(minStr, 10);
+
+          // If date is today, filter out past slots
+          if (isToday) {
+            // Buffer: block slots starting within the next 15 minutes
+            const slotTime = new Date();
+            slotTime.setHours(slotHour, slotMin, 0, 0);
+
+            const comparisonTime = new Date();
+            comparisonTime.setMinutes(currentMinute + 15);
+
+            if (slotTime < comparisonTime) {
+              return; // Skip past/near slots for today
+            }
+          }
+
+          const opt = document.createElement("option");
+          opt.value = slot;
+          opt.textContent = slotHour >= 12 ? `${slotHour === 12 ? 12 : slotHour - 12}:${minStr} PM` : `${slotHour}:${minStr} AM`;
+          slotSelect.appendChild(opt);
+        });
+      };
+
+      // Table availability check (Dine-in only)
+      const checkAvailability = async () => {
+        if (selectedMode !== "dine-in") return;
+        
+        const date = dateInput.value;
+        const slot = slotSelect.value;
+        const partySize = partySizeSelect.value;
+
+        if (!date || !slot || !partySize) {
+          slotWarning.hidden = true;
+          submitOrderBtn.disabled = false;
+          return;
+        }
+
+        if (window.dbService) {
+          try {
+            const check = await window.dbService.checkSlotAvailability(date, slot, partySize);
+            if (!check.available) {
+              slotWarning.hidden = false;
+              submitOrderBtn.disabled = true;
+            } else {
+              slotWarning.hidden = true;
+              submitOrderBtn.disabled = false;
+            }
+          } catch (error) {
+            console.error("Availability check failed:", error);
+          }
+        }
+      };
+
+      // Listeners for slot triggers
+      dateInput.addEventListener("change", () => {
+        updateSlots();
+        checkAvailability();
+      });
+      slotSelect.addEventListener("change", checkAvailability);
+      partySizeSelect.addEventListener("change", checkAvailability);
+
+      // Handle checkout submit
+      checkoutForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Basic inputs validations
+        if (!checkoutForm.checkValidity()) {
+          checkoutForm.reportValidity();
+          return;
+        }
+
+        const name = document.getElementById("cName").value.trim();
+        const phone = document.getElementById("cPhone").value.trim();
+        const date = dateInput.value;
+        const slot = slotSelect.value;
+        const notes = document.getElementById("cNotes").value.trim();
+
+        if (Object.keys(cart).length === 0) {
+          alert("Your cart is empty.");
+          return;
+        }
+
+        submitOrderBtn.disabled = true;
+        submitOrderBtn.textContent = "Processing Order...";
+
+        // Format cart items for db
+        const items = Object.keys(cart).map(id => ({
+          itemId: id,
+          name: cart[id].name,
+          qty: cart[id].qty
+        }));
+
+        try {
+          if (window.dbService) {
+            // Place order
+            const orderData = {
+              mode: selectedMode,
+              items: items,
+              customerName: name,
+              customerPhone: phone,
+              scheduledDate: date,
+              scheduledSlot: slot,
+              seatingPreference: selectedMode === "dine-in" ? document.getElementById("cPref").value : null,
+              specialRequest: notes
+            };
+
+            const orderId = await window.dbService.addOrder(orderData);
+            localStorage.setItem("mg_last_order_id", orderId);
+
+            if (selectedMode === "dine-in") {
+              // Create linked table reservation
+              const reservationData = {
+                customerName: name,
+                customerPhone: phone,
+                date: date,
+                slot: slot,
+                partySize: parseInt(partySizeSelect.value, 10),
+                seatingPreference: document.getElementById("cPref").value,
+                specialRequest: notes,
+                linkedOrderId: orderId
+              };
+
+              const reservationId = await window.dbService.addReservation(reservationData);
+              localStorage.setItem("mg_last_booking_id", reservationId);
+
+              // Link them
+              await window.dbService.linkOrderAndReservation(orderId, reservationId);
+            }
+
+            // Clear Cart session
+            sessionStorage.removeItem("mg_cart");
+
+            // Redirect to confirmation
+            window.location.href = `confirmation.html?type=order&id=${orderId}`;
+          }
+        } catch (error) {
+          console.error("Order submission failed:", error);
+          alert("Failed to submit order. Please try again.");
+          submitOrderBtn.disabled = false;
+          submitOrderBtn.textContent = "Place Order";
+        }
+      });
+
+      // Footer year
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Run
+      loadCart();
+      updateSlots();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Book a table online at Malvani Gajalee. Homely hospitality and authentic coastal seafood waiting for you in Dombivli." />
+  <meta name="theme-color" content="#6b1414" />
+  <title>Book a Table · Malvani Gajalee · Dombivli</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .reserve-page-container {
+      max-width: 900px;
+      margin: 3rem auto 6rem;
+      padding: 0 1.5rem;
+    }
+    
+    .reserve-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(107, 20, 20, 0.06);
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    
+    .reserve-info {
+      color: var(--ink);
+    }
+    
+    .reserve-info h1 {
+      font-family: var(--ff-head);
+      color: var(--maroon);
+      font-size: 2.2rem;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+    
+    .preorder-prompt {
+      background: var(--cream);
+      border: 1.5px dashed var(--gold);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+    }
+    
+    .preorder-prompt a {
+      color: var(--maroon);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .slot-alert {
+      background: #fdf2f2;
+      color: #9b1c1c;
+      border: 1px solid #fbd5d5;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .reserve-card {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+        gap: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ TOP STRIP ============ -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span class="topbar__item">🦞 Multi-Cuisine Seafood Restaurant</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">📍 Dombivli, Maharashtra</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">⏱ Open Daily · 11:00 AM – 11:30 PM</span>
+    </div>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="brand" aria-label="Malvani Gajalee home">
+        <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+        <span class="brand__mark" style="display:none">🐟</span>
+        <span class="brand__text">
+          <span class="brand__name">Malvani Gajalee</span>
+          <span class="brand__tag">by Chef Nilesh Sawant</span>
+        </span>
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html#story">The Gajali</a>
+        <a href="index.html#specialties">Specialties</a>
+        <a href="menu.html">Menu</a>
+        <a href="index.html#chef">The Chef</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#visit">Visit</a>
+        <a href="reserve.html" class="btn btn--gold nav__cta">Book a Table</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ RESERVATION WRAPPER ============ -->
+  <main class="reserve-page-container">
+    <div class="reserve-card">
+      
+      <!-- Info Left Column -->
+      <div class="reserve-info">
+        <span class="kicker">Book Your Gajali</span>
+        <h1>Reserve a <em>Table</em></h1>
+        <p style="color:var(--ink-soft); line-height:1.6; margin-bottom:1.5rem">
+          Join us for a cozy meal with family and friends. Tell us when you are arriving, and we'll have the warm coastal hospitality waiting.
+        </p>
+        
+        <p style="font-size:0.9rem; color:var(--ink-soft); font-weight:500">
+          📌 Reservations start as <strong>Pending</strong>. We will check table availability and confirm shortly!
+        </p>
+
+        <!-- Pre-order prompt box -->
+        <div class="preorder-prompt">
+          🍛 <strong>Hungry? Pre-Order Food!</strong><br />
+          Want your hot food ready on arrival? Browse our menu and add items to place a Dine-In pre-order. 
+          <a href="menu.html">Explore Menu &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Form Right Column -->
+      <form id="standaloneReserveForm" class="reserve__form" style="padding:0; background:none; box-shadow:none" novalidate>
+        <div class="field">
+          <label for="rName">Full Name</label>
+          <input type="text" id="rName" placeholder="Your name" required />
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="rPhone">Phone</label>
+            <input type="tel" id="rPhone" placeholder="10-digit mobile" pattern="[6-9][0-9]{9}" required />
+          </div>
+          <div class="field">
+            <label for="rGuests">Guests</label>
+            <select id="rGuests">
+              <option value="1">1 Person</option>
+              <option value="2">2 People</option>
+              <option value="3" selected>3 People</option>
+              <option value="4">4 People</option>
+              <option value="5">5 People</option>
+              <option value="6">6 People</option>
+              <option value="7">7 People</option>
+              <option value="8">8+ People</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="rDate">Date</label>
+            <input type="date" id="rDate" required />
+          </div>
+          <div class="field">
+            <label for="rSlot">Time Slot</label>
+            <select id="rSlot" required>
+              <option value="" disabled selected>Select a slot</option>
+              <!-- Injected Dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="rPref">Seating Preference</label>
+          <select id="rPref">
+            <option value="Indoor">Indoor (Standard)</option>
+            <option value="AC">AC Dining Area</option>
+            <option value="Outdoor">Outdoor Seating</option>
+            <option value="Non-AC">Non-AC Area</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="rNotes">Special Request <small>(optional)</small></label>
+          <textarea id="rNotes" rows="2" placeholder="Window seat, birthday occasion, allergies..."></textarea>
+        </div>
+
+        <div class="slot-alert" id="slotWarning" hidden>
+          ⚠️ This slot is fully booked for this party size. Please choose another slot or date.
+        </div>
+
+        <button type="submit" class="btn btn--gold btn--block btn--lg" id="submitReserveBtn" style="margin-top:1rem">Confirm Reservation</button>
+      </form>
+
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="visit">
+    <div class="footer__top">
+      <div class="footer__col">
+        <a href="index.html" class="brand brand--footer">
+          <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo brand__logo--footer"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+          <span class="brand__mark" style="display:none">🐟</span>
+          <span class="brand__text">
+            <span class="brand__name">Malvani Gajalee</span>
+            <span class="brand__tag">Multi-Cuisine Seafood Restaurant</span>
+          </span>
+        </a>
+        <p class="footer__about">It’s not just a meal — it’s the taste of Malvan
+          and the joy of conversations. Brought to Dombivli by Chef Nilesh Sawant.</p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Visit Us</h5>
+        <p><a href="https://maps.app.goo.gl/nJjEmyBHknPd1KZ38" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none">Malvani Gajalee<br />Dombivli (East),<br />Maharashtra 421201</a></p>
+        <p><a href="tel:+919921154312">+91 99211 54312</a></p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Hours</h5>
+        <p>Monday – Sunday<br />11:00 AM – 11:30 PM</p>
+        <h5 class="footer__h5--mt">Follow</h5>
+        <div class="footer__social">
+          <a href="https://www.instagram.com/malvanigajalee/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+        </div>
+      </div>
+
+      <div class="footer__col footer__map">
+        <iframe
+          title="Malvani Gajalee location"
+          src="https://www.google.com/maps?q=MALVANI+GAJALEE,Dombivli,Maharashtra&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© <span id="year"></span> Malvani Gajalee · Dombivli. All rights reserved.</p>
+      <p class="footer__credit">“गजाली” — joyful conversations, made flavorful.</p>
+    </div>
+  </footer>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/env.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <script>
+    (function() {
+      "use strict";
+
+      const navToggle = document.getElementById("navToggle");
+      const nav = document.getElementById("nav");
+      const navLinks = document.getElementById("navLinks");
+      const reserveForm = document.getElementById("standaloneReserveForm");
+      
+      const dateInput = document.getElementById("rDate");
+      const slotSelect = document.getElementById("rSlot");
+      const guestsSelect = document.getElementById("rGuests");
+      const slotWarning = document.getElementById("slotWarning");
+      const submitReserveBtn = document.getElementById("submitReserveBtn");
+
+      // Mobile Menu
+      if (navToggle) {
+        navToggle.addEventListener("click", () => nav.classList.toggle("open"));
+        navLinks.addEventListener("click", (e) => {
+          if (e.target.tagName === "A") nav.classList.remove("open");
+        });
+      }
+
+      // Date constraints
+      const todayISO = new Date().toISOString().split("T")[0];
+      dateInput.min = todayISO;
+      dateInput.value = todayISO;
+
+      // Generate time slots (same as order.html)
+      const updateSlots = () => {
+        const selectedDate = dateInput.value;
+        const isToday = selectedDate === todayISO;
+        
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+
+        const lunchSlots = ["12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
+        const dinnerSlots = ["19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00"];
+        const allSlots = [...lunchSlots, ...dinnerSlots];
+
+        slotSelect.innerHTML = '<option value="" disabled selected>Select a slot</option>';
+
+        allSlots.forEach(slot => {
+          const [hourStr, minStr] = slot.split(":");
+          const slotHour = parseInt(hourStr, 10);
+          const slotMin = parseInt(minStr, 10);
+
+          if (isToday) {
+            const slotTime = new Date();
+            slotTime.setHours(slotHour, slotMin, 0, 0);
+
+            const comparisonTime = new Date();
+            comparisonTime.setMinutes(currentMinute + 15);
+
+            if (slotTime < comparisonTime) {
+              return;
+            }
+          }
+
+          const opt = document.createElement("option");
+          opt.value = slot;
+          opt.textContent = slotHour >= 12 ? `${slotHour === 12 ? 12 : slotHour - 12}:${minStr} PM` : `${slotHour}:${minStr} AM`;
+          slotSelect.appendChild(opt);
+        });
+      };
+
+      // Availability check
+      const checkAvailability = async () => {
+        const date = dateInput.value;
+        const slot = slotSelect.value;
+        const partySize = guestsSelect.value;
+
+        if (!date || !slot || !partySize) {
+          slotWarning.hidden = true;
+          submitReserveBtn.disabled = false;
+          return;
+        }
+
+        if (window.dbService) {
+          try {
+            const check = await window.dbService.checkSlotAvailability(date, slot, partySize);
+            if (!check.available) {
+              slotWarning.hidden = false;
+              submitReserveBtn.disabled = true;
+            } else {
+              slotWarning.hidden = true;
+              submitReserveBtn.disabled = false;
+            }
+          } catch (error) {
+            console.error("Availability check error:", error);
+          }
+        }
+      };
+
+      // Listeners
+      dateInput.addEventListener("change", () => {
+        updateSlots();
+        checkAvailability();
+      });
+      slotSelect.addEventListener("change", checkAvailability);
+      guestsSelect.addEventListener("change", checkAvailability);
+
+      // Submit Form
+      reserveForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (!reserveForm.checkValidity()) {
+          reserveForm.reportValidity();
+          return;
+        }
+
+        const name = document.getElementById("rName").value.trim();
+        const phone = document.getElementById("rPhone").value.trim();
+        const date = dateInput.value;
+        const slot = slotSelect.value;
+        const guests = guestsSelect.value;
+        const pref = document.getElementById("rPref").value;
+        const notes = document.getElementById("rNotes").value.trim();
+
+        submitReserveBtn.disabled = true;
+        submitReserveBtn.textContent = "Booking Table...";
+
+        try {
+          if (window.dbService) {
+            const reservationData = {
+              customerName: name,
+              customerPhone: phone,
+              date: date,
+              slot: slot,
+              partySize: parseInt(guests, 10),
+              seatingPreference: pref,
+              specialRequest: notes
+            };
+
+            const reservationId = await window.dbService.addReservation(reservationData);
+            localStorage.setItem("mg_last_booking_id", reservationId);
+
+            // Redirect to confirmation
+            window.location.href = `confirmation.html?type=reservation&id=${reservationId}`;
+          }
+        } catch (error) {
+          console.error("Failed to submit reservation:", error);
+          alert("Failed to confirm table booking. Please try again.");
+          submitReserveBtn.disabled = false;
+          submitReserveBtn.textContent = "Confirm Reservation";
+        }
+      });
+
+      // Footer year
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Init
+      updateSlots();
+    })();
+  </script>
+</body>
+</html>

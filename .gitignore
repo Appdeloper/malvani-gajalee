@@ -1,0 +1,14 @@
+# Git ignore configuration
+js/env.js
+node_modules/
+npm-cache/
+npm-global/
+temp/
+.claude/
+.gemini/
+.env
+.env.local
+.env.*.local
+dist/
+build/
+*.log

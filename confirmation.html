@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Thank you for your order/reservation at Malvani Gajalee. Your request is being processed." />
+  <meta name="theme-color" content="#6b1414" />
+  <title>Booking Confirmed · Malvani Gajalee · Dombivli</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============ TOP STRIP ============ -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span class="topbar__item">🦞 Multi-Cuisine Seafood Restaurant</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">📍 Dombivli, Maharashtra</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">⏱ Open Daily · 11:00 AM – 11:30 PM</span>
+    </div>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="brand" aria-label="Malvani Gajalee home">
+        <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+        <span class="brand__mark" style="display:none">🐟</span>
+        <span class="brand__text">
+          <span class="brand__name">Malvani Gajalee</span>
+          <span class="brand__tag">by Chef Nilesh Sawant</span>
+        </span>
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html#story">The Gajali</a>
+        <a href="index.html#specialties">Specialties</a>
+        <a href="menu.html">Menu</a>
+        <a href="index.html#chef">The Chef</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#visit">Visit</a>
+        <a href="reserve.html" class="btn btn--gold nav__cta">Book a Table</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ CONFIRMATION SECTION ============ -->
+  <main class="confirm-page">
+    <div class="confirm-card" id="confirmCard">
+      <div id="loadingState" style="padding: 2rem 0;">
+        <h3>Loading booking details...</h3>
+      </div>
+      
+      <div id="contentState" hidden>
+        <div class="confirm-icon">🎉</div>
+        <h1 class="confirm-title" id="confirmTitle">Booking Received!</h1>
+        <p style="color:var(--ink-soft); font-size:1.02rem" id="confirmSub">We have received your details.</p>
+        
+        <div class="ref-num" id="refNum">MG-XXXXXX</div>
+        
+        <!-- Large "Pay at Restaurant" Banner -->
+        <div class="confirm-banner">
+          💰 Pay at Restaurant on Arrival
+        </div>
+        
+        <!-- Booking Details Grid -->
+        <div class="confirm-details">
+          <h3 id="detailsHeader">Reservation Details</h3>
+          <div class="confirm-details__row">
+            <span class="confirm-details__label">Customer Name</span>
+            <span class="confirm-details__val" id="detName">-</span>
+          </div>
+          <div class="confirm-details__row">
+            <span class="confirm-details__label">Contact Phone</span>
+            <span class="confirm-details__val" id="detPhone">-</span>
+          </div>
+          <div class="confirm-details__row">
+            <span class="confirm-details__label">Date & Time</span>
+            <span class="confirm-details__val" id="detDateTime">-</span>
+          </div>
+          <div class="confirm-details__row" id="detGuestsRow">
+            <span class="confirm-details__label">Party Size</span>
+            <span class="confirm-details__val" id="detGuests">-</span>
+          </div>
+          <div class="confirm-details__row" id="detPrefRow">
+            <span class="confirm-details__label">Seating Preference</span>
+            <span class="confirm-details__val" id="detPref">-</span>
+          </div>
+          
+          <!-- Pre-ordered Items List -->
+          <div class="confirm-items" id="preorderItemsSection" hidden>
+            <h4 style="font-size:0.95rem; font-family:var(--ff-head); color:var(--maroon); margin-bottom:0.8rem">Pre-ordered Dishes</h4>
+            <div id="preorderItemsList">
+              <!-- Injected Dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1rem; align-items:stretch">
+          <!-- WhatsApp Redirection CTA -->
+          <a id="btnWhatsAppHandoff" class="btn btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer">
+            💬 Send to Restaurant on WhatsApp
+          </a>
+
+          <a href="index.html" class="btn btn--ghost btn-back-home" style="color:var(--maroon); border-color:var(--maroon)">
+            &larr; Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="visit">
+    <div class="footer__top">
+      <div class="footer__col">
+        <a href="index.html" class="brand brand--footer">
+          <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo brand__logo--footer"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+          <span class="brand__mark" style="display:none">🐟</span>
+          <span class="brand__text">
+            <span class="brand__name">Malvani Gajalee</span>
+            <span class="brand__tag">Multi-Cuisine Seafood Restaurant</span>
+          </span>
+        </a>
+        <p class="footer__about">It’s not just a meal — it’s the taste of Malvan
+          and the joy of conversations. Brought to Dombivli by Chef Nilesh Sawant.</p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Visit Us</h5>
+        <p><a href="https://maps.app.goo.gl/nJjEmyBHknPd1KZ38" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none">Malvani Gajalee<br />Dombivli (East),<br />Maharashtra 421201</a></p>
+        <p><a href="tel:+919921154312">+91 99211 54312</a></p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Hours</h5>
+        <p>Monday – Sunday<br />11:00 AM – 11:30 PM</p>
+        <h5 class="footer__h5--mt">Follow</h5>
+        <div class="footer__social">
+          <a href="https://www.instagram.com/malvanigajalee/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+        </div>
+      </div>
+
+      <div class="footer__col footer__map">
+        <iframe
+          title="Malvani Gajalee location"
+          src="https://www.google.com/maps?q=MALVANI+GAJALEE,Dombivli,Maharashtra&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© <span id="year"></span> Malvani Gajalee · Dombivli. All rights reserved.</p>
+      <p class="footer__credit">“गजाली” — joyful conversations, made flavorful.</p>
+    </div>
+  </footer>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/env.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // Query String Parsers
+      const getQueryParams = () => {
+        const params = {};
+        const search = window.location.search.substring(1);
+        if (!search) return params;
+        const pairs = search.split("&");
+        pairs.forEach(pair => {
+          const parts = pair.split("=");
+          params[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || "");
+        });
+        return params;
+      };
+
+      const params = getQueryParams();
+      const type = params.type || "order"; // order, reservation
+      const id = params.id;
+
+      // Elements
+      const loadingState = document.getElementById("loadingState");
+      const contentState = document.getElementById("contentState");
+      const confirmTitle = document.getElementById("confirmTitle");
+      const confirmSub = document.getElementById("confirmSub");
+      const refNum = document.getElementById("refNum");
+      const detailsHeader = document.getElementById("detailsHeader");
+      const detName = document.getElementById("detName");
+      const detPhone = document.getElementById("detPhone");
+      const detDateTime = document.getElementById("detDateTime");
+      const detGuestsRow = document.getElementById("detGuestsRow");
+      const detGuests = document.getElementById("detGuests");
+      const detPrefRow = document.getElementById("detPrefRow");
+      const detPref = document.getElementById("detPref");
+      const preorderItemsSection = document.getElementById("preorderItemsSection");
+      const preorderItemsList = document.getElementById("preorderItemsList");
+      const btnWhatsAppHandoff = document.getElementById("btnWhatsAppHandoff");
+
+      // Mobile Menu
+      const navToggle = document.getElementById("navToggle");
+      const nav = document.getElementById("nav");
+      const navLinks = document.getElementById("navLinks");
+      if (navToggle) {
+        navToggle.addEventListener("click", () => nav.classList.toggle("open"));
+        navLinks.addEventListener("click", (e) => {
+          if (e.target.tagName === "A") nav.classList.remove("open");
+        });
+      }
+
+      // Format Date/Slot nicely
+      const formatSlotTime = (slot) => {
+        if (!slot) return "";
+        const [hourStr, minStr] = slot.split(":");
+        const slotHour = parseInt(hourStr, 10);
+        return slotHour >= 12 ? `${slotHour === 12 ? 12 : slotHour - 12}:${minStr} PM` : `${slotHour}:${minStr} AM`;
+      };
+
+      const loadDetails = async () => {
+        if (!id) {
+          loadingState.innerHTML = `<h3>Error: No ID specified in URL.</h3>`;
+          return;
+        }
+
+        if (!window.dbService) {
+          console.error("Database service is missing.");
+          return;
+        }
+
+        try {
+          let data = null;
+          if (type === "order") {
+            data = await window.dbService.getOrder(id);
+          } else {
+            data = await window.dbService.getReservation(id);
+          }
+
+          if (!data) {
+            loadingState.innerHTML = `<h3>Record not found for reference ${id}.</h3>`;
+            return;
+          }
+
+          renderPage(data);
+        } catch (error) {
+          console.error("Error loading confirmation details:", error);
+          loadingState.innerHTML = `<h3>Error loading details.</h3>`;
+        }
+      };
+
+      const renderPage = (data) => {
+        loadingState.hidden = true;
+        contentState.hidden = false;
+
+        refNum.textContent = data.orderNumber || data.reservationRef || data.id;
+
+        if (type === "order") {
+          confirmTitle.textContent = "Order Placed Successfully!";
+          confirmSub.textContent = data.mode === "dine-in" 
+            ? "Your table pre-order is confirmed." 
+            : "Your takeaway order is confirmed.";
+          
+          detailsHeader.textContent = "Order Summary";
+          detName.textContent = data.customerName;
+          detPhone.textContent = data.customerPhone;
+          detDateTime.textContent = `${data.scheduledDate} at ${formatSlotTime(data.scheduledSlot)}`;
+
+          if (data.mode === "dine-in") {
+            detPrefRow.hidden = false;
+            detPref.textContent = data.seatingPreference || "No preference";
+            detGuestsRow.hidden = true; // Let the linked reservation details hold party size, or hide
+          } else {
+            detPrefRow.hidden = true;
+            detGuestsRow.hidden = true;
+          }
+
+          // Render pre-ordered items list (NO PRICES)
+          if (data.items && data.items.length > 0) {
+            preorderItemsSection.hidden = false;
+            preorderItemsList.innerHTML = data.items.map(item => `
+              <div class="confirm-item-line">
+                <span class="confirm-details__label">${item.name}</span>
+                <span class="confirm-details__val">Qty: ${item.qty}</span>
+              </div>
+            `).join("");
+          }
+
+          // Build WhatsApp Message
+          buildWhatsAppLink({
+            ref: data.orderNumber,
+            name: data.customerName,
+            phone: data.customerPhone,
+            date: data.scheduledDate,
+            time: formatSlotTime(data.scheduledSlot),
+            mode: data.mode === "dine-in" ? "Dine-In Pre-Order" : "Takeaway Pickup",
+            pref: data.seatingPreference,
+            items: data.items
+          });
+
+        } else {
+          // It's a reservation
+          confirmTitle.textContent = "Table Request Received!";
+          confirmSub.textContent = "Chef Nilesh is reviewing the seating availability.";
+          
+          detailsHeader.textContent = "Reservation Details";
+          detName.textContent = data.customerName || data.name;
+          detPhone.textContent = data.customerPhone || data.phone;
+          detDateTime.textContent = `${data.date} at ${formatSlotTime(data.slot || data.time)}`;
+          
+          detGuestsRow.hidden = false;
+          detGuests.textContent = `${data.partySize || data.guests} People`;
+          
+          detPrefRow.hidden = false;
+          detPref.textContent = data.seatingPreference || data.notes || "No preference";
+
+          // If linked pre-order has items
+          if (data.linkedOrderId) {
+            // Fetch linked order items to display
+            fetchLinkedOrderItems(data.linkedOrderId);
+          }
+
+          // Build WhatsApp Message
+          buildWhatsAppLink({
+            ref: data.reservationRef || data.id,
+            name: data.customerName || data.name,
+            phone: data.customerPhone || data.phone,
+            date: data.date,
+            time: formatSlotTime(data.slot || data.time),
+            mode: "Table Reservation Only",
+            pref: data.seatingPreference || data.notes,
+            partySize: data.partySize || data.guests
+          });
+        }
+      };
+
+      const fetchLinkedOrderItems = async (orderId) => {
+        try {
+          const order = await window.dbService.getOrder(orderId);
+          if (order && order.items && order.items.length > 0) {
+            preorderItemsSection.hidden = false;
+            preorderItemsList.innerHTML = order.items.map(item => `
+              <div class="confirm-item-line">
+                <span class="confirm-details__label">${item.name}</span>
+                <span class="confirm-details__val">Qty: ${item.qty}</span>
+              </div>
+            `).join("");
+
+            // Rebuild WhatsApp Link with items
+            const currentData = {
+              ref: params.id,
+              name: detName.textContent,
+              phone: detPhone.textContent,
+              date: detDateTime.textContent.split(" at ")[0],
+              time: detDateTime.textContent.split(" at ")[1],
+              mode: "Dine-In Table + Pre-Order",
+              pref: detPref.textContent,
+              partySize: detGuests.textContent,
+              items: order.items
+            };
+            buildWhatsAppLink(currentData);
+          }
+        } catch (e) {
+          console.warn("Could not load linked order items:", e);
+        }
+      };
+
+      const buildWhatsAppLink = (info) => {
+        const waNum = window.env?.whatsappNumber || "919921154312";
+        
+        let msg = `Hello Malvani Gajalee! I'd like to confirm my booking details:\n\n`;
+        msg += `Reference ID: ${info.ref}\n`;
+        msg += `Mode: ${info.mode}\n`;
+        msg += `Customer Name: ${info.name}\n`;
+        msg += `Contact Phone: ${info.phone}\n`;
+        msg += `Timing: ${info.date} at ${info.time}\n`;
+        
+        if (info.partySize) {
+          msg += `Party Size: ${info.partySize}\n`;
+        }
+        if (info.pref) {
+          msg += `Preference: ${info.pref}\n`;
+        }
+
+        if (info.items && info.items.length > 0) {
+          msg += `\nDishes Ordered:\n`;
+          info.items.forEach(item => {
+            msg += `- ${item.name} (Qty: ${item.qty})\n`;
+          });
+        }
+
+        msg += `\nPayment Mode: Pay at Restaurant`;
+
+        const encodedMsg = encodeURIComponent(msg);
+        btnWhatsAppHandoff.href = `https://wa.me/${waNum}?text=${encodedMsg}`;
+      };
+
+      // Footer year
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Init
+      loadDetails();
+    })();
+  </script>
+</body>
+</html>

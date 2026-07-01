@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Browse the full menu at Malvani Gajalee - Seafood, Tandoor, Chinese and Indian specialties in Dombivli. Pre-order online for Dine-In or Takeaway." />
+  <meta name="theme-color" content="#6b1414" />
+  <title>Our Menu · Malvani Gajalee · Dombivli</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Marcellus&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* Indian Veg / Non-Veg Markers styling */
+    .marker-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .food-marker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border: 2px solid;
+      padding: 2px;
+      border-radius: 2px;
+    }
+    .food-marker__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .food-marker--veg { border-color: var(--green); }
+    .food-marker--veg .food-marker__dot { background: var(--green); }
+    .food-marker--nonveg { border-color: var(--terracotta); }
+    .food-marker--nonveg .food-marker__dot { background: var(--terracotta); }
+    
+    .dish-tag-badge {
+      background: var(--gold-soft);
+      color: var(--maroon-deep);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .spice-indicator {
+      font-size: 0.8rem;
+      color: var(--terracotta);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ TOP STRIP ============ -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span class="topbar__item">🦞 Multi-Cuisine Seafood Restaurant</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">📍 Dombivli, Maharashtra</span>
+      <span class="topbar__sep">•</span>
+      <span class="topbar__item">⏱ Open Daily · 11:00 AM – 11:30 PM</span>
+    </div>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="brand" aria-label="Malvani Gajalee home">
+        <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+        <span class="brand__mark" style="display:none">🐟</span>
+        <span class="brand__text">
+          <span class="brand__name">Malvani Gajalee</span>
+          <span class="brand__tag">by Chef Nilesh Sawant</span>
+        </span>
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html#story">The Gajali</a>
+        <a href="index.html#specialties">Specialties</a>
+        <a href="menu.html" class="active">Menu</a>
+        <a href="index.html#chef">The Chef</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#visit">Visit</a>
+        <a href="reserve.html" class="btn btn--gold nav__cta">Book a Table</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ MENU SECTION ============ -->
+  <main class="menu-page">
+    <div class="menu-header">
+      <div>
+        <span class="kicker">Chef Nilesh's Selection</span>
+        <h1 class="section-title">Explore Our <em>Flavors</em></h1>
+        <p class="section-lead" style="margin-top:0.4rem">Select authentic coastal catches, sizzling tandoor appetizers, curries, and desserts. No prices listed — order and pay in person on arrival.</p>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="menu-controls">
+        <div class="search-box">
+          <input type="text" id="menuSearch" placeholder="Search for dishes..." />
+        </div>
+        <div class="filter-controls">
+          <label class="toggle-container">
+            <input type="checkbox" id="vegFilter" />
+            <span class="toggle-switch"></span>
+            <span>🌿 Pure Veg Only</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Chips (Sticky) -->
+    <nav class="category-nav" id="categoryNav">
+      <button class="cat-chip active" data-category="all">All Categories</button>
+      <!-- Injected Dynamically -->
+    </nav>
+
+    <!-- Grid of Dishes grouped by Category -->
+    <div id="menuSectionsContainer">
+      <div style="text-align:center; padding:5rem; color:var(--ink-soft)">
+        <h3>Loading our delicious menu...</h3>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ FLOATING CART STATUS BAR ============ -->
+  <div class="cart-bar" id="cartBar">
+    <div class="cart-bar__details">
+      <div class="cart-bar__icon">
+        🛒
+        <span class="cart-bar__count" id="cartCount">0</span>
+      </div>
+      <div class="cart-bar__text" id="cartText">No items selected</div>
+    </div>
+    <a href="order.html" class="btn btn--gold">Confirm Order Online &rarr;</a>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="visit">
+    <div class="footer__top">
+      <div class="footer__col">
+        <a href="index.html" class="brand brand--footer">
+          <img src="images/logo.jpg" alt="Malvani Gajalee logo" class="brand__logo brand__logo--footer"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'" />
+          <span class="brand__mark" style="display:none">🐟</span>
+          <span class="brand__text">
+            <span class="brand__name">Malvani Gajalee</span>
+            <span class="brand__tag">Multi-Cuisine Seafood Restaurant</span>
+          </span>
+        </a>
+        <p class="footer__about">It’s not just a meal — it’s the taste of Malvan
+          and the joy of conversations. Brought to Dombivli by Chef Nilesh Sawant.</p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Visit Us</h5>
+        <p><a href="https://maps.app.goo.gl/nJjEmyBHknPd1KZ38" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none">Malvani Gajalee<br />Dombivli (East),<br />Maharashtra 421201</a></p>
+        <p><a href="tel:+919921154312">+91 99211 54312</a></p>
+      </div>
+
+      <div class="footer__col">
+        <h5>Hours</h5>
+        <p>Monday – Sunday<br />11:00 AM – 11:30 PM</p>
+        <h5 class="footer__h5--mt">Follow</h5>
+        <div class="footer__social">
+          <a href="https://www.instagram.com/malvanigajalee/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+        </div>
+      </div>
+
+      <div class="footer__col footer__map">
+        <iframe
+          title="Malvani Gajalee location"
+          src="https://www.google.com/maps?q=MALVANI+GAJALEE,Dombivli,Maharashtra&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© <span id="year"></span> Malvani Gajalee · Dombivli. All rights reserved.</p>
+      <p class="footer__credit">“गजाली” — joyful conversations, made flavorful.</p>
+    </div>
+  </footer>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/env.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <script>
+    // Menu Page State & Logic
+    (function() {
+      "use strict";
+
+      // Elements
+      const navToggle = document.getElementById("navToggle");
+      const nav = document.getElementById("nav");
+      const navLinks = document.getElementById("navLinks");
+      const categoryNav = document.getElementById("categoryNav");
+      const sectionsContainer = document.getElementById("menuSectionsContainer");
+      const searchInput = document.getElementById("menuSearch");
+      const vegFilterCheckbox = document.getElementById("vegFilter");
+      const cartBar = document.getElementById("cartBar");
+      const cartCount = document.getElementById("cartCount");
+      const cartText = document.getElementById("cartText");
+      
+      let allMenuItems = [];
+      let allCategories = [];
+      let cart = {}; // itemId -> { name: string, qty: number }
+
+      // Mobile Menu
+      if (navToggle) {
+        navToggle.addEventListener("click", () => nav.classList.toggle("open"));
+        navLinks.addEventListener("click", (e) => {
+          if (e.target.tagName === "A") nav.classList.remove("open");
+        });
+      }
+
+      // Initialize Cart from Session Storage
+      const initCart = () => {
+        try {
+          const stored = sessionStorage.getItem("mg_cart");
+          if (stored) {
+            cart = JSON.parse(stored);
+          }
+        } catch (e) {
+          console.warn("Could not read cart from sessionStorage:", e);
+        }
+        updateCartUI();
+      };
+
+      // Save Cart to Session Storage
+      const saveCart = () => {
+        try {
+          sessionStorage.setItem("mg_cart", JSON.stringify(cart));
+        } catch (e) {
+          console.warn("Could not write cart to sessionStorage:", e);
+        }
+        updateCartUI();
+      };
+
+      // Update Cart floating bar UI
+      const updateCartUI = () => {
+        let totalItems = 0;
+        for (const id in cart) {
+          totalItems += cart[id].qty;
+        }
+
+        if (totalItems > 0) {
+          cartCount.textContent = totalItems;
+          cartText.textContent = `Selected: ${totalItems} dish${totalItems > 1 ? 'es' : ''}`;
+          cartBar.classList.add("show");
+        } else {
+          cartBar.classList.remove("show");
+        }
+      };
+
+      // Fetch Menu & Categories
+      const loadMenuData = async () => {
+        if (!window.dbService) {
+          console.error("Database service is missing.");
+          return;
+        }
+        try {
+          allCategories = await window.dbService.getCategories();
+          allMenuItems = await window.dbService.getMenu();
+          
+          renderCategoryNav();
+          renderMenu();
+        } catch (err) {
+          console.error("Error loading menu data:", err);
+          sectionsContainer.innerHTML = `
+            <div style="text-align:center; padding:5rem; color:var(--terracotta)">
+              <h3>Error loading menu. Please try again.</h3>
+            </div>
+          `;
+        }
+      };
+
+      // Render Category Navigation chips
+      const renderCategoryNav = () => {
+        // Clear except the first "All Categories" button
+        const allBtn = categoryNav.querySelector('[data-category="all"]');
+        categoryNav.innerHTML = "";
+        categoryNav.appendChild(allBtn);
+
+        allCategories.forEach(cat => {
+          // Check if category has any menu items
+          const hasItems = allMenuItems.some(item => item.category === cat.id);
+          if (hasItems) {
+            const btn = document.createElement("button");
+            btn.className = "cat-chip";
+            btn.textContent = cat.name;
+            btn.setAttribute("data-category", cat.id);
+            categoryNav.appendChild(btn);
+          }
+        });
+
+        // Set up click handlers
+        categoryNav.addEventListener("click", (e) => {
+          const btn = e.target.closest(".cat-chip");
+          if (!btn) return;
+
+          categoryNav.querySelectorAll(".cat-chip").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const selectedCategory = btn.getAttribute("data-category");
+          filterAndRenderMenu(selectedCategory);
+        });
+      };
+
+      // Filter and render menu items
+      const filterAndRenderMenu = (selectedCategory = "all") => {
+        const searchQuery = searchInput.value.toLowerCase().trim();
+        const vegOnly = vegFilterCheckbox.checked;
+
+        // Group items by category
+        const filteredGroups = {};
+        
+        allCategories.forEach(cat => {
+          // If we filtered by a specific category, skip others
+          if (selectedCategory !== "all" && cat.id !== selectedCategory) return;
+
+          const items = allMenuItems.filter(item => {
+            if (item.category !== cat.id) return false;
+            
+            // Search query filter
+            if (searchQuery && !item.name.toLowerCase().includes(searchQuery) && !item.description.toLowerCase().includes(searchQuery)) {
+              return false;
+            }
+
+            // Veg-only filter
+            if (vegOnly && !item.isVeg) {
+              return false;
+            }
+
+            return true;
+          });
+
+          if (items.length > 0) {
+            filteredGroups[cat.name] = items;
+          }
+        });
+
+        renderFilteredMenu(filteredGroups);
+      };
+
+      // Render the grouped menu items
+      const renderFilteredMenu = (groups) => {
+        sectionsContainer.innerHTML = "";
+
+        const keys = Object.keys(groups);
+        if (keys.length === 0) {
+          sectionsContainer.innerHTML = `
+            <div style="text-align:center; padding:5rem; color:var(--ink-soft)">
+              <h3>No dishes match your filters.</h3>
+            </div>
+          `;
+          return;
+        }
+
+        keys.forEach(catName => {
+          const section = document.createElement("section");
+          section.className = "menu-section";
+
+          const h2 = document.createElement("h2");
+          h2.className = "menu-section__title";
+          h2.textContent = catName;
+          section.appendChild(h2);
+
+          const grid = document.createElement("div");
+          grid.className = "menu__grid";
+
+          groups[catName].forEach(item => {
+            const card = document.createElement("article");
+            card.className = `dish reveal in ${item.isAvailable ? '' : 'dish--unavailable'}`;
+            
+            const cartItem = cart[item.id];
+            const qtyInCart = cartItem ? cartItem.qty : 0;
+
+            const tagsHTML = item.tags && item.tags.length > 0 
+              ? item.tags.map(t => `<span class="dish-tag-badge">${t}</span>`).join("")
+              : "";
+
+            const vegClass = item.isVeg ? "food-marker--veg" : "food-marker--nonveg";
+            const vegLabel = item.isVeg ? "Veg" : "Non-Veg";
+
+            const spiceIcons = {
+              "mild": "🌶️",
+              "medium": "🌶️🌶️",
+              "spicy": "🔥🌶️🌶️"
+            };
+            const spiceHTML = item.spiceLevel ? `<span class="spice-indicator" title="Spice level: ${item.spiceLevel}">${spiceIcons[item.spiceLevel] || "🌶️"}</span>` : "";
+
+            card.innerHTML = `
+              <div class="dish__img" style="--img:url('${item.imageUrl || 'images/dishes.jpg'}')"></div>
+              <div class="dish__body">
+                <div class="dish__top" style="align-items: center; justify-content: space-between;">
+                  <h3 style="display:flex; align-items:center; gap:0.5rem">
+                    <span class="food-marker ${vegClass}" title="${vegLabel}">
+                      <span class="food-marker__dot"></span>
+                    </span>
+                    ${item.name}
+                  </h3>
+                  ${spiceHTML}
+                </div>
+                <p>${item.description || ""}</p>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem; flex-wrap:wrap; gap:0.5rem">
+                  <div style="display:flex; gap:0.3rem">${tagsHTML}</div>
+                  <div class="action-slot" data-id="${item.id}" data-name="${item.name}">
+                    ${item.isAvailable ? (qtyInCart > 0 ? `
+                      <div class="stepper">
+                        <button class="stepper-btn btn-dec">-</button>
+                        <span class="stepper-val">${qtyInCart}</span>
+                        <button class="stepper-btn btn-inc">+</button>
+                      </div>
+                    ` : `
+                      <button class="btn btn--maroon btn--sm dish__add-btn">Add to Order</button>
+                    `) : `
+                      <span style="font-size:0.8rem; font-weight:600; color:var(--terracotta)">Currently Unavailable</span>
+                    `}
+                  </div>
+                </div>
+              </div>
+            `;
+            grid.appendChild(card);
+          });
+
+          section.appendChild(grid);
+          sectionsContainer.appendChild(section);
+        });
+      };
+
+      const renderMenu = () => {
+        // Initial render, category defaults to 'all'
+        filterAndRenderMenu("all");
+      };
+
+      // Handle stepper increment/decrement and Add button click
+      sectionsContainer.addEventListener("click", (e) => {
+        const addBtn = e.target.closest(".dish__add-btn");
+        const decBtn = e.target.closest(".btn-dec");
+        const incBtn = e.target.closest(".btn-inc");
+
+        if (addBtn) {
+          const slot = addBtn.closest(".action-slot");
+          const itemId = slot.getAttribute("data-id");
+          const name = slot.getAttribute("data-name");
+
+          cart[itemId] = { name, qty: 1 };
+          saveCart();
+          renderActionSlot(slot, itemId, name, 1);
+        }
+
+        if (incBtn) {
+          const slot = incBtn.closest(".action-slot");
+          const itemId = slot.getAttribute("data-id");
+          const name = slot.getAttribute("data-name");
+
+          if (cart[itemId]) {
+            cart[itemId].qty++;
+            saveCart();
+            renderActionSlot(slot, itemId, name, cart[itemId].qty);
+          }
+        }
+
+        if (decBtn) {
+          const slot = decBtn.closest(".action-slot");
+          const itemId = slot.getAttribute("data-id");
+          const name = slot.getAttribute("data-name");
+
+          if (cart[itemId]) {
+            cart[itemId].qty--;
+            if (cart[itemId].qty <= 0) {
+              delete cart[itemId];
+              saveCart();
+              renderActionSlot(slot, itemId, name, 0);
+            } else {
+              saveCart();
+              renderActionSlot(slot, itemId, name, cart[itemId].qty);
+            }
+          }
+        }
+      });
+
+      // Re-render a single action slot stepper to prevent full page re-renders
+      const renderActionSlot = (slot, itemId, name, qty) => {
+        if (qty > 0) {
+          slot.innerHTML = `
+            <div class="stepper">
+              <button class="stepper-btn btn-dec">-</button>
+              <span class="stepper-val">${qty}</span>
+              <button class="stepper-btn btn-inc">+</button>
+            </div>
+          `;
+        } else {
+          slot.innerHTML = `
+            <button class="btn btn--maroon btn--sm dish__add-btn">Add to Order</button>
+          `;
+        }
+      };
+
+      // Search & Filters Listeners
+      searchInput.addEventListener("input", () => {
+        // Check which category chip is active
+        const activeChip = categoryNav.querySelector(".cat-chip.active");
+        const activeCat = activeChip ? activeChip.getAttribute("data-category") : "all";
+        filterAndRenderMenu(activeCat);
+      });
+
+      vegFilterCheckbox.addEventListener("change", () => {
+        const activeChip = categoryNav.querySelector(".cat-chip.active");
+        const activeCat = activeChip ? activeChip.getAttribute("data-category") : "all";
+        filterAndRenderMenu(activeCat);
+      });
+
+      // Footer year
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Initialization
+      initCart();
+      loadMenuData();
+    })();
+  </script>
+</body>
+</html>
