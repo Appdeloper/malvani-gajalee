@@ -1,0 +1,64 @@
+rules_version = '2';
+
+// ============================================================
+//  MALVANI GAJALEE — Firestore security rules
+//  Customers are NOT logged in (they only create orders/reservations).
+//  Staff ARE authenticated (portal login) and can read/manage.
+//  There is no online payment: paymentMode is a fixed constant.
+// ============================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isStaff() {
+      return request.auth != null;
+    }
+
+    // --- Menu / categories / tables: public read, staff-only write ---
+    match /menuItems/{id} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+    match /categories/{id} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+    match /tables/{id} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+
+    // --- Orders: anyone may CREATE (customer, unauthenticated),
+    //     only staff may READ / UPDATE, nobody may DELETE from client. ---
+    match /orders/{id} {
+      allow read, update: if isStaff();
+      allow delete: if false;
+      allow create: if
+        // never let a client spoof these:
+        request.resource.data.status == "new" &&
+        request.resource.data.paymentMode == "pay_at_restaurant" &&
+        // required customer fields:
+        request.resource.data.customerName is string &&
+        request.resource.data.customerName.size() > 0 &&
+        request.resource.data.customerPhone is string &&
+        request.resource.data.mode in ["dine-in", "takeaway"] &&
+        // total is optional (free-text orders have no price); if present it must be a valid number:
+        (!("total" in request.resource.data)
+          || (request.resource.data.total is number && request.resource.data.total >= 0));
+    }
+
+    // --- Reservations: anyone may CREATE, only staff read/update, no client delete ---
+    match /reservations/{id} {
+      allow read, update: if isStaff();
+      allow delete: if false;
+      allow create: if
+        request.resource.data.customerName is string &&
+        request.resource.data.customerName.size() > 0 &&
+        request.resource.data.customerPhone is string;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

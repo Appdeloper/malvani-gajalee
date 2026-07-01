@@ -421,10 +421,8 @@
             };
             const spiceHTML = item.spiceLevel ? `<span class="spice-indicator" title="Spice level: ${item.spiceLevel}">${spiceIcons[item.spiceLevel] || "🌶️"}</span>` : "";
 
-            let imgUrl = item.imageUrl || 'images/dishes.jpg';
-            if (!imgUrl.startsWith("http") && !imgUrl.startsWith("/") && !imgUrl.startsWith("..")) {
-              imgUrl = "../" + imgUrl;
-            }
+            // menu.html is at the site root, so image paths like "images/x.jpg" are already correct.
+            const imgUrl = item.imageUrl || 'images/dishes.jpg';
 
             card.innerHTML = `
               <div class="dish__img" style="--img:url('${imgUrl}')"></div>
