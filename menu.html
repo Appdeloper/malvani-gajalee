@@ -111,9 +111,6 @@
 
       <!-- Controls Row -->
       <div class="menu-controls">
-        <div class="search-box">
-          <input type="text" id="menuSearch" placeholder="Search for dishes..." />
-        </div>
         <div class="filter-controls">
           <label class="toggle-container">
             <input type="checkbox" id="vegFilter" />
@@ -213,7 +210,6 @@
       const navLinks = document.getElementById("navLinks");
       const categoryNav = document.getElementById("categoryNav");
       const sectionsContainer = document.getElementById("menuSectionsContainer");
-      const searchInput = document.getElementById("menuSearch");
       const vegFilterCheckbox = document.getElementById("vegFilter");
       const cartBar = document.getElementById("cartBar");
       const cartCount = document.getElementById("cartCount");
@@ -326,7 +322,6 @@
 
       // Filter and render menu items
       const filterAndRenderMenu = (selectedCategory = "all") => {
-        const searchQuery = searchInput.value.toLowerCase().trim();
         const vegOnly = vegFilterCheckbox.checked;
 
         // Group items by category
@@ -339,11 +334,6 @@
           const items = allMenuItems.filter(item => {
             if (item.category !== cat.id) return false;
             
-            // Search query filter
-            if (searchQuery && !item.name.toLowerCase().includes(searchQuery) && !item.description.toLowerCase().includes(searchQuery)) {
-              return false;
-            }
-
             // Veg-only filter
             if (vegOnly && !item.isVeg) {
               return false;
@@ -407,8 +397,13 @@
             };
             const spiceHTML = item.spiceLevel ? `<span class="spice-indicator" title="Spice level: ${item.spiceLevel}">${spiceIcons[item.spiceLevel] || "🌶️"}</span>` : "";
 
+            let imgUrl = item.imageUrl || 'images/dishes.jpg';
+            if (!imgUrl.startsWith("http") && !imgUrl.startsWith("/") && !imgUrl.startsWith("..")) {
+              imgUrl = "../" + imgUrl;
+            }
+
             card.innerHTML = `
-              <div class="dish__img" style="--img:url('${item.imageUrl || 'images/dishes.jpg'}')"></div>
+              <div class="dish__img" style="--img:url('${imgUrl}')"></div>
               <div class="dish__body">
                 <div class="dish__top" style="align-items: center; justify-content: space-between;">
                   <h3 style="display:flex; align-items:center; gap:0.5rem">
@@ -516,13 +511,6 @@
       };
 
       // Search & Filters Listeners
-      searchInput.addEventListener("input", () => {
-        // Check which category chip is active
-        const activeChip = categoryNav.querySelector(".cat-chip.active");
-        const activeCat = activeChip ? activeChip.getAttribute("data-category") : "all";
-        filterAndRenderMenu(activeCat);
-      });
-
       vegFilterCheckbox.addEventListener("change", () => {
         const activeChip = categoryNav.querySelector(".cat-chip.active");
         const activeCat = activeChip ? activeChip.getAttribute("data-category") : "all";

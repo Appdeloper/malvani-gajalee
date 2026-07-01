@@ -42,12 +42,17 @@
       <nav class="nav__links" id="navLinks">
         <a href="#story">The Gajali</a>
         <a href="#specialties">Specialties</a>
-        <a href="#menu-section">Menu</a>
+        <a href="menu.html">Menu / Order Online</a>
         <a href="#chef">The Chef</a>
         <a href="#gallery">Gallery</a>
         <a href="#visit">Visit</a>
-        <a href="#reserve" class="btn btn--gold nav__cta">Reserve a Table</a>
+        <a href="reserve.html" class="btn btn--gold nav__cta">Book a Table</a>
       </nav>
+
+      <!-- Cart Icon Link (stays hidden if cart is empty) -->
+      <a href="order.html" class="nav__cart" id="navCart" style="display:none; align-items:center; justify-content:center; text-decoration:none; font-size:1.2rem; position:relative; margin-right:1rem; cursor:pointer" aria-label="View Cart">
+        🛒 <span class="cart-badge" id="navCartCount" style="position:absolute; top:-6px; right:-8px; background:var(--gold); color:var(--maroon-deep); font-size:0.65rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center">0</span>
+      </a>
 
       <button class="nav__toggle" id="navToggle" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -70,8 +75,8 @@
         crafted in Dombivli for our Dombivlikars.
       </p>
       <div class="hero__actions reveal">
-        <a href="#reserve" class="btn btn--gold btn--lg">Reserve a Table</a>
-        <a href="#specialties" class="btn btn--ghost btn--lg">Explore the Menu</a>
+        <a href="reserve.html" class="btn btn--gold btn--lg">Reserve a Table</a>
+        <a href="menu.html" class="btn btn--ghost btn--lg">Order Online</a>
       </div>
 
       <div class="hero__badges reveal">
@@ -193,7 +198,7 @@
     </div>
 
     <div class="menu__cta reveal">
-      <a href="#reserve" class="btn btn--maroon btn--lg">Book a Table to Taste It All</a>
+      <a href="reserve.html" class="btn btn--maroon btn--lg">Book a Table to Taste It All</a>
     </div>
   </section>
 
@@ -203,9 +208,12 @@
       <span class="kicker kicker--light">Traditional & Modern</span>
       <h2 class="section-title section-title--light">Explore Our <em>Full Menu</em></h2>
       <p class="full-menu__desc">From fresh coastal catches and signature hand-ground masalas to classic Indian appetizers, main courses, and desserts. Browse our complete selection of culinary delights.</p>
-      <div class="full-menu__actions">
-        <a href="https://drive.google.com/file/d/1-kRKmvW63dWi0S3mOQyZwUIzowC3-BbK/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn--gold btn--lg">
+      <div class="full-menu__actions" style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap">
+        <a href="https://drive.google.com/file/d/1-kRKmvW63dWi0S3mOQyZwUIzowC3-BbK/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--lg" style="color:var(--cream); border-color:var(--cream)">
           📖 View Full Menu (PDF)
+        </a>
+        <a href="menu.html" class="btn btn--gold btn--lg">
+          🛒 Order Online / Interactive Menu
         </a>
       </div>
     </div>
@@ -379,7 +387,7 @@
     </div>
   </footer>
 
-  <a href="#reserve" class="fab" aria-label="Reserve a table">📅 Reserve</a>
+  <a href="reserve.html" class="fab" aria-label="Reserve a table">📅 Reserve</a>
 
   <!-- ============ FLOATING RESERVATION STATUS WIDGET ============ -->
   <div class="booking-widget" id="bookingWidget" hidden>
@@ -409,6 +417,7 @@
   <!-- Firebase compatibility SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/env.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/script.js"></script>
 </body>

@@ -371,13 +371,13 @@ window.dbService = {
     const reservationData = {
       id: reservationId,
       reservationRef: reservationId,
-      customerName: reservation.customerName,
-      customerPhone: reservation.customerPhone,
+      customerName: reservation.customerName || reservation.name,
+      customerPhone: reservation.customerPhone || reservation.phone,
       date: reservation.date,
-      slot: reservation.slot,
-      partySize: parseInt(reservation.partySize || 3, 10),
+      slot: reservation.slot || reservation.time,
+      partySize: parseInt(reservation.partySize || reservation.guests || 3, 10),
       seatingPreference: reservation.seatingPreference || "Indoor",
-      specialRequest: reservation.specialRequest || "",
+      specialRequest: reservation.specialRequest || reservation.notes || "",
       linkedOrderId: reservation.linkedOrderId || null,
       assignedTableId: null,
       status: "pending", // pending, confirmed, seated, completed, cancelled
@@ -393,8 +393,8 @@ window.dbService = {
       // Also map fields for backward compatibility with old script
       const legacyReservationData = {
         ...reservationData,
-        name: reservation.customerName,
-        phone: reservation.customerPhone,
+        name: reservationData.customerName,
+        phone: reservationData.customerPhone,
         guests: reservationData.partySize.toString(),
         time: reservationData.slot,
         notes: reservationData.specialRequest || "None",

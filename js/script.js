@@ -165,4 +165,26 @@
   /* ---- Footer year ---- */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ---- Navbar Cart Update ---- */
+  const navCart = document.getElementById("navCart");
+  const navCartCount = document.getElementById("navCartCount");
+  if (navCart && navCartCount) {
+    try {
+      const stored = sessionStorage.getItem("mg_cart");
+      if (stored) {
+        const cart = JSON.parse(stored);
+        let count = 0;
+        for (const id in cart) {
+          count += cart[id].qty;
+        }
+        if (count > 0) {
+          navCartCount.textContent = count;
+          navCart.style.display = "inline-flex";
+        }
+      }
+    } catch (e) {
+      console.warn("Error reading cart in navbar script:", e);
+    }
+  }
 })();
