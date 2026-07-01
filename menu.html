@@ -80,7 +80,7 @@
         <span class="brand__mark" style="display:none">🐟</span>
         <span class="brand__text">
           <span class="brand__name">Malvani Gajalee</span>
-          <span class="brand__tag">by Chef Nilesh Sawant</span>
+          <span class="brand__tag">by Chef Nilesh Samant</span>
         </span>
       </a>
 
@@ -186,7 +186,7 @@
           </span>
         </a>
         <p class="footer__about">It’s not just a meal — it’s the taste of Malvan
-          and the joy of conversations. Brought to Dombivli by Chef Nilesh Sawant.</p>
+          and the joy of conversations. Brought to Dombivli by Chef Nilesh Samant.</p>
       </div>
 
       <div class="footer__col">
@@ -421,8 +421,10 @@
             };
             const spiceHTML = item.spiceLevel ? `<span class="spice-indicator" title="Spice level: ${item.spiceLevel}">${spiceIcons[item.spiceLevel] || "🌶️"}</span>` : "";
 
-            // menu.html is at the site root, so image paths like "images/x.jpg" are already correct.
-            const imgUrl = item.imageUrl || 'images/dishes.jpg';
+            // The card uses --img/var() from the external stylesheet, which resolves url()
+            // relative to css/, so use a root-absolute path that works regardless.
+            let imgUrl = item.imageUrl || 'images/dishes.jpg';
+            if (imgUrl.charAt(0) !== '/' && !imgUrl.startsWith('http')) imgUrl = '/' + imgUrl;
 
             card.innerHTML = `
               <div class="dish__img" style="--img:url('${imgUrl}')"></div>
