@@ -39,7 +39,7 @@
         </span>
       </a>
 
-      <nav class="nav__links" id="navLinks">
+      <nav class="nav__links" id="navLinks" aria-label="Main navigation">
         <a href="#story">The Gajali</a>
         <a href="#specialties">Specialties</a>
         <a href="#menu-section">Menu</a>
@@ -47,17 +47,28 @@
         <a href="#gallery">Gallery</a>
         <a href="#visit">Visit</a>
         <a href="#reserve" class="btn btn--gold nav__cta">Reserve a Table</a>
+        <a href="admin.html" class="nav__staff" aria-label="Staff Portal — staff login">
+          <svg class="nav__staff-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="11" width="16" height="9" rx="2"></rect>
+            <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+          </svg>
+          <span class="nav__staff-text">Staff Portal</span>
+          <small class="nav__staff-sub">Staff login</small>
+        </a>
       </nav>
 
-      <button class="nav__toggle" id="navToggle" aria-label="Open menu">
+      <button class="nav__toggle" id="navToggle" type="button"
+              aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
     </div>
+    <div class="nav__backdrop" id="navBackdrop"></div>
   </header>
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="home">
-    <div class="hero__media" style="--img:url('../images/restaurant-bg.jpg')"></div>
+    <div class="hero__media" style="--img:url('images/restaurant-bg.jpg')"></div>
     <div class="hero__overlay"></div>
 
     <div class="hero__content">

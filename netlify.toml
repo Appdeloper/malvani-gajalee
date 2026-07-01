@@ -1,0 +1,9 @@
+# Netlify configuration — Malvani Gajalee (static site)
+[build]
+  publish = "."
+
+# Serve the staff dashboard at /admin (Staff Portal link target)
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200

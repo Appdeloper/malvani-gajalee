@@ -151,7 +151,10 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid rgba(107, 20, 20, 0.08);
   transition: box-shadow 0.3s, background 0.3s;
 }
-.nav.scrolled { box-shadow: 0 8px 30px -18px rgba(43, 23, 21, 0.5); }
+.nav.scrolled {
+  background: rgba(253, 246, 236, 0.97);
+  box-shadow: 0 8px 30px -18px rgba(43, 23, 21, 0.5);
+}
 .nav__inner {
   max-width: var(--maxw);
   margin: 0 auto;
@@ -192,41 +195,107 @@ a { color: inherit; text-decoration: none; }
   color: var(--terracotta);
 }
 .nav__links { display: flex; align-items: center; gap: 1.7rem; }
-.nav__links a:not(.btn) {
+.nav__links a:not(.btn):not(.nav__staff) {
   font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--ink);
   position: relative;
   padding: 0.2rem 0;
-  transition: color 0.25s;
+  transition: color 0.2s var(--ease);
 }
-.nav__links a:not(.btn)::after {
+.nav__links a:not(.btn):not(.nav__staff)::after {
   content: "";
   position: absolute;
   left: 0; bottom: -2px;
   width: 0; height: 2px;
   background: var(--gold);
-  transition: width 0.3s var(--ease);
+  transition: width 0.2s var(--ease);
 }
-.nav__links a:not(.btn):hover { color: var(--maroon); }
-.nav__links a:not(.btn):hover::after { width: 100%; }
+.nav__links a:not(.btn):not(.nav__staff):hover,
+.nav__links a:not(.btn):not(.nav__staff).active { color: var(--maroon); }
+.nav__links a:not(.btn):not(.nav__staff):hover::after,
+.nav__links a:not(.btn):not(.nav__staff).active::after { width: 100%; }
 .nav__cta { padding: 0.6rem 1.3rem; }
 
+/* Keyboard focus rings */
+.brand:focus-visible,
+.nav__links a:focus-visible,
+.nav__staff:focus-visible,
+.nav__toggle:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Staff Portal — desktop (muted, far right, after Reserve) */
+.nav__staff {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.8rem;
+  padding-left: 1.1rem;
+  border-left: 1px solid rgba(107, 20, 20, 0.18);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 0.2s var(--ease);
+}
+.nav__staff-ico { width: 15px; height: 15px; flex: none; }
+.nav__staff:hover { color: var(--gold); }
+.nav__staff-sub { display: none; }
+
+/* Hamburger toggle (44x44 touch target, visible over hero) */
 .nav__toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
-  background: none; border: none; cursor: pointer;
-  padding: 6px;
+  width: 44px;
+  height: 44px;
+  position: relative;
+  z-index: 1002;
+  background: rgba(253, 246, 236, 0.55);
+  border: 1px solid rgba(107, 20, 20, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
+.nav__toggle:hover,
+.nav__toggle:focus-visible { background: rgba(212, 160, 76, 0.22); }
+.nav.open .nav__toggle { background: rgba(212, 160, 76, 0.28); }
 .nav__toggle span {
-  width: 26px; height: 2.5px;
+  width: 24px; height: 2.5px;
   background: var(--maroon);
   border-radius: 2px;
-  transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
 }
 .nav.open .nav__toggle span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
 .nav.open .nav__toggle span:nth-child(2) { opacity: 0; }
 .nav.open .nav__toggle span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* Mobile drawer backdrop (viewport-fixed regardless of header stacking) */
+.nav__backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh; height: 100dvh;
+  z-index: 999;
+  background: rgba(26, 10, 8, 0.5);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s var(--ease), visibility 0s linear 0.3s;
+}
+.nav.open .nav__backdrop {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s var(--ease), visibility 0s;
+}
+body.menu-open { overflow: hidden; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -765,22 +834,78 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 720px) {
+  .nav__toggle { display: flex; }
+
+  /* Full-height slide-in drawer (pinned to viewport via the sticky header origin) */
   .nav__links {
     position: fixed;
-    inset: 0 0 0 auto;
-    width: min(78vw, 320px);
+    top: 0; right: 0;
+    height: 100vh; height: 100dvh;
+    width: min(86vw, 360px);
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: flex-start;
-    gap: 1.4rem;
-    background: var(--cream);
-    padding: 6rem 2rem 2rem;
-    box-shadow: -20px 0 60px -20px rgba(43,23,21,0.5);
+    gap: 0.2rem;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    padding: 5.5rem 1.75rem 2rem;
+    box-shadow: -24px 0 70px -24px rgba(43, 23, 21, 0.55);
     transform: translateX(100%);
-    transition: transform 0.4s var(--ease);
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease), visibility 0s linear 0.3s;
   }
-  .nav.open .nav__links { transform: translateX(0); }
-  .nav__toggle { display: flex; z-index: 101; }
+  .nav.open .nav__links {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease), visibility 0s;
+  }
+
+  /* Drawer links: brand headings, generous tap targets */
+  .nav__links a:not(.btn):not(.nav__staff) {
+    font-family: var(--ff-head);
+    font-size: 1.18rem;
+    letter-spacing: 0.02em;
+    color: var(--maroon);
+    padding: 0.85rem 0.25rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(107, 20, 20, 0.09);
+  }
+  .nav__links a:not(.btn):not(.nav__staff)::after { display: none; }
+  .nav__links a:not(.btn):not(.nav__staff).active { color: var(--terracotta); }
+
+  .nav__cta {
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+    padding: 0.9rem 1.3rem !important;
+    font-size: 1rem;
+  }
+
+  /* Staff Portal — mobile (bottom of drawer, subordinated) */
+  .nav__staff {
+    margin: auto 0 0;              /* push to the bottom */
+    padding: 1.1rem 0.25rem 0.25rem;
+    border-left: none;
+    border-top: 1px solid rgba(107, 20, 20, 0.15);
+    justify-content: flex-start;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .nav__staff-ico { width: 16px; height: 16px; }
+  .nav__staff-sub {
+    display: inline;
+    margin-left: 0.4rem;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0.6;
+    font-size: 0.9em;
+  }
+
   .hero__badges { gap: 1.6rem; }
   .topbar__inner { font-size: 0.68rem; }
 }

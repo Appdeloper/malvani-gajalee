@@ -1,0 +1,12 @@
+# OS / editor
+Thumbs.db
+.DS_Store
+
+# Netlify
+.netlify/
+
+# Local dev-server config (machine-specific absolute paths)
+.claude/
+
+# Node (if ever added)
+node_modules/

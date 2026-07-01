@@ -18,12 +18,105 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  /* ---- Mobile menu ---- */
-  if (navToggle) {
-    navToggle.addEventListener("click", () => nav.classList.toggle("open"));
-    navLinks.addEventListener("click", (e) => {
-      if (e.target.tagName === "A") nav.classList.remove("open");
+  /* ---- Mobile menu (accessible slide-in drawer) ---- */
+  const backdrop = document.getElementById("navBackdrop");
+  const mqMobile = window.matchMedia("(max-width: 720px)");
+  let lastFocused = null;
+
+  const getFocusable = () =>
+    navLinks
+      ? Array.from(
+          navLinks.querySelectorAll('a[href], button:not([disabled])')
+        ).filter((el) => el.offsetParent !== null)
+      : [];
+
+  const openMenu = () => {
+    if (!nav) return;
+    lastFocused = document.activeElement;
+    nav.classList.add("open");
+    document.body.classList.add("menu-open");
+    navToggle.setAttribute("aria-expanded", "true");
+    navToggle.setAttribute("aria-label", "Close menu");
+    navLinks.setAttribute("role", "dialog");
+    navLinks.setAttribute("aria-modal", "true");
+    const f = getFocusable();
+    if (f.length) f[0].focus();
+  };
+
+  const closeMenu = ({ restore = true } = {}) => {
+    if (!nav || !nav.classList.contains("open")) return;
+    nav.classList.remove("open");
+    document.body.classList.remove("menu-open");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Open menu");
+    navLinks.removeAttribute("role");
+    navLinks.removeAttribute("aria-modal");
+    if (restore && lastFocused && typeof lastFocused.focus === "function") {
+      lastFocused.focus();
+    }
+  };
+
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", () => {
+      nav.classList.contains("open") ? closeMenu() : openMenu();
     });
+
+    if (backdrop) backdrop.addEventListener("click", () => closeMenu());
+
+    // Close after tapping any link (don't restore focus — we're navigating)
+    navLinks.addEventListener("click", (e) => {
+      if (e.target.closest("a")) closeMenu({ restore: false });
+    });
+
+    // Esc to close + focus trap while open
+    document.addEventListener("keydown", (e) => {
+      if (!nav.classList.contains("open")) return;
+      if (e.key === "Escape") {
+        closeMenu();
+        return;
+      }
+      if (e.key === "Tab") {
+        const f = getFocusable();
+        if (!f.length) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    // If resized up to desktop while open, tidy up
+    mqMobile.addEventListener("change", (ev) => {
+      if (!ev.matches) closeMenu({ restore: false });
+    });
+  }
+
+  /* ---- Active-section highlight (desktop scroll-spy) ---- */
+  const spyLinks = navLinks
+    ? Array.from(navLinks.querySelectorAll('a[href^="#"]:not(.btn)'))
+    : [];
+  const spyTargets = spyLinks
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+  if (spyTargets.length && "IntersectionObserver" in window) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = "#" + entry.target.id;
+          spyLinks.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href") === id)
+          );
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+    spyTargets.forEach((t) => spy.observe(t));
   }
 
   /* ---- Reveal on scroll ---- */
