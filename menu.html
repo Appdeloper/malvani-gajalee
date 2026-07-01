@@ -91,6 +91,7 @@
         <a href="index.html#chef">The Chef</a>
         <a href="index.html#gallery">Gallery</a>
         <a href="index.html#visit">Visit</a>
+        <a href="admin.html" style="font-size:0.82rem; opacity:0.7">Staff Portal</a>
         <a href="reserve.html" class="btn btn--gold nav__cta">Book a Table</a>
       </nav>
 
@@ -135,17 +136,41 @@
     </div>
   </main>
 
-  <!-- ============ FLOATING CART STATUS BAR ============ -->
-  <div class="cart-bar" id="cartBar">
-    <div class="cart-bar__details">
-      <div class="cart-bar__icon">
-        🛒
-        <span class="cart-bar__count" id="cartCount">0</span>
-      </div>
-      <div class="cart-bar__text" id="cartText">No items selected</div>
+  <!-- ============ FLOATING ORDER ONLINE BUTTON ============ -->
+  <a href="order.html" class="order-fab" id="orderFab" style="
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.8rem;
+    background: linear-gradient(135deg, var(--maroon), var(--maroon-deep));
+    color: #fff;
+    font-family: var(--ff-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 6px 24px rgba(80,20,20,.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+  " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(80,20,20,.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 6px 24px rgba(80,20,20,.35)'">
+    🍛 Order Online
+  </a>
+
+  <!-- ============ CTA SECTION ============ -->
+  <section class="menu-cta" style="background: var(--maroon-deep); color: var(--cream); text-align: center; padding: 4rem 1.5rem; position: relative; overflow: hidden; border-top: 3px solid var(--gold);">
+    <div style="max-width: 600px; margin: 0 auto; position: relative; z-index: 2;">
+      <span class="kicker kicker--light" style="margin-bottom: 0.5rem;">Quick & Easy</span>
+      <h2 style="font-family: var(--ff-head); font-size: 2.2rem; color: var(--gold-soft); margin-bottom: 1rem;">Ready to Order?</h2>
+      <p style="color: var(--cream-2); font-size: 1.05rem; margin-bottom: 2rem; opacity: 0.9;">Type your selection directly in our simple order form and we'll prepare it for you. Pay on arrival.</p>
+      <a href="order.html" class="btn btn--gold btn--lg" style="box-shadow: 0 4px 15px rgba(0,0,0,0.2);">🍛 Order Online Now</a>
     </div>
-    <a href="order.html" class="btn btn--gold">Confirm Order Online &rarr;</a>
-  </div>
+    <!-- Subtle background elements -->
+    <div style="position: absolute; bottom: -20px; right: -20px; font-size: 8rem; opacity: 0.05; pointer-events: none;">🐟</div>
+    <div style="position: absolute; top: -20px; left: -20px; font-size: 8rem; opacity: 0.05; pointer-events: none;">🦞</div>
+  </section>
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer" id="visit">
@@ -176,6 +201,8 @@
         <h5 class="footer__h5--mt">Follow</h5>
         <div class="footer__social">
           <a href="https://www.instagram.com/malvanigajalee/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+          <span style="color:var(--ink-soft); margin:0 0.5rem">•</span>
+          <a href="admin.html" aria-label="Staff Portal">Staff Portal</a>
         </div>
       </div>
 
@@ -379,9 +406,6 @@
           groups[catName].forEach(item => {
             const card = document.createElement("article");
             card.className = `dish reveal in ${item.isAvailable ? '' : 'dish--unavailable'}`;
-            
-            const cartItem = cart[item.id];
-            const qtyInCart = cartItem ? cartItem.qty : 0;
 
             const tagsHTML = item.tags && item.tags.length > 0 
               ? item.tags.map(t => `<span class="dish-tag-badge">${t}</span>`).join("")
@@ -417,19 +441,7 @@
                 <p>${item.description || ""}</p>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem; flex-wrap:wrap; gap:0.5rem">
                   <div style="display:flex; gap:0.3rem">${tagsHTML}</div>
-                  <div class="action-slot" data-id="${item.id}" data-name="${item.name}">
-                    ${item.isAvailable ? (qtyInCart > 0 ? `
-                      <div class="stepper">
-                        <button class="stepper-btn btn-dec">-</button>
-                        <span class="stepper-val">${qtyInCart}</span>
-                        <button class="stepper-btn btn-inc">+</button>
-                      </div>
-                    ` : `
-                      <button class="btn btn--maroon btn--sm dish__add-btn">Add to Order</button>
-                    `) : `
-                      <span style="font-size:0.8rem; font-weight:600; color:var(--terracotta)">Currently Unavailable</span>
-                    `}
-                  </div>
+                  ${!item.isAvailable ? `<span style="font-size:0.8rem; font-weight:600; color:var(--terracotta)">Currently Unavailable</span>` : ""}
                 </div>
               </div>
             `;
@@ -446,70 +458,6 @@
         filterAndRenderMenu("all");
       };
 
-      // Handle stepper increment/decrement and Add button click
-      sectionsContainer.addEventListener("click", (e) => {
-        const addBtn = e.target.closest(".dish__add-btn");
-        const decBtn = e.target.closest(".btn-dec");
-        const incBtn = e.target.closest(".btn-inc");
-
-        if (addBtn) {
-          const slot = addBtn.closest(".action-slot");
-          const itemId = slot.getAttribute("data-id");
-          const name = slot.getAttribute("data-name");
-
-          cart[itemId] = { name, qty: 1 };
-          saveCart();
-          renderActionSlot(slot, itemId, name, 1);
-        }
-
-        if (incBtn) {
-          const slot = incBtn.closest(".action-slot");
-          const itemId = slot.getAttribute("data-id");
-          const name = slot.getAttribute("data-name");
-
-          if (cart[itemId]) {
-            cart[itemId].qty++;
-            saveCart();
-            renderActionSlot(slot, itemId, name, cart[itemId].qty);
-          }
-        }
-
-        if (decBtn) {
-          const slot = decBtn.closest(".action-slot");
-          const itemId = slot.getAttribute("data-id");
-          const name = slot.getAttribute("data-name");
-
-          if (cart[itemId]) {
-            cart[itemId].qty--;
-            if (cart[itemId].qty <= 0) {
-              delete cart[itemId];
-              saveCart();
-              renderActionSlot(slot, itemId, name, 0);
-            } else {
-              saveCart();
-              renderActionSlot(slot, itemId, name, cart[itemId].qty);
-            }
-          }
-        }
-      });
-
-      // Re-render a single action slot stepper to prevent full page re-renders
-      const renderActionSlot = (slot, itemId, name, qty) => {
-        if (qty > 0) {
-          slot.innerHTML = `
-            <div class="stepper">
-              <button class="stepper-btn btn-dec">-</button>
-              <span class="stepper-val">${qty}</span>
-              <button class="stepper-btn btn-inc">+</button>
-            </div>
-          `;
-        } else {
-          slot.innerHTML = `
-            <button class="btn btn--maroon btn--sm dish__add-btn">Add to Order</button>
-          `;
-        }
-      };
-
       // Search & Filters Listeners
       vegFilterCheckbox.addEventListener("change", () => {
         const activeChip = categoryNav.querySelector(".cat-chip.active");
@@ -522,7 +470,6 @@
       if (yearEl) yearEl.textContent = new Date().getFullYear();
 
       // Initialization
-      initCart();
       loadMenuData();
     })();
   </script>

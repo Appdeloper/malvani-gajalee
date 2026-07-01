@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Review your cart and confirm your online order or table pre-order at Malvani Gajalee." />
+  <meta name="description" content="Place an online order at Malvani Gajalee. Write your order and we'll have it ready for you." />
   <meta name="theme-color" content="#6b1414" />
-  <title>Checkout · Malvani Gajalee · Dombivli</title>
+  <title>Order Online · Malvani Gajalee · Dombivli</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,30 +13,65 @@
 
   <link rel="stylesheet" href="css/styles.css" />
   <style>
-    .cart-empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--ink-soft);
+    .order-page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 4rem;
     }
-    
-    .checkout-form-section {
+
+    .order-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(80,30,30,.08);
+      padding: 2.5rem 2rem;
+    }
+
+    .order-title {
+      font-family: var(--ff-head);
+      font-size: 1.8rem;
+      color: var(--maroon);
+      margin-bottom: 0.3rem;
+    }
+
+    .order-subtitle {
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .order-form {
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
     }
-    
+
     .form-group-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
-    
+
     @media (max-width: 560px) {
-      .form-group-row {
-        grid-template-columns: 1fr;
-      }
+      .form-group-row { grid-template-columns: 1fr; }
+      .order-card { padding: 2rem 1.2rem; }
     }
-    
+
+    .order-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .order-textarea::placeholder {
+      line-height: 1.6;
+    }
+
+    .order-help {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      margin-top: -0.5rem;
+      padding-left: 0.2rem;
+    }
+
     .slot-alert {
       background: #fdf2f2;
       color: #9b1c1c;
@@ -46,6 +81,37 @@
       font-size: 0.85rem;
       font-weight: 500;
       margin-top: 0.5rem;
+    }
+
+    .order-success-msg {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .order-success-msg .success-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .order-success-msg h2 {
+      font-family: var(--ff-head);
+      color: var(--maroon);
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-ref {
+      background: var(--cream-2);
+      border: 2px dashed var(--gold);
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      font-family: var(--ff-body);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--maroon-deep);
+      display: inline-block;
+      margin: 1rem 0;
+      letter-spacing: 0.05em;
     }
   </style>
 </head>
@@ -82,6 +148,7 @@
         <a href="index.html#chef">The Chef</a>
         <a href="index.html#gallery">Gallery</a>
         <a href="index.html#visit">Visit</a>
+        <a href="admin.html" style="font-size:0.82rem; opacity:0.7">Staff Portal</a>
         <a href="reserve.html" class="btn btn--gold nav__cta">Book a Table</a>
       </nav>
 
@@ -91,45 +158,47 @@
     </div>
   </header>
 
-  <!-- ============ CHECKOUT CONTAINER ============ -->
-  <main class="checkout-container" id="checkoutContainer">
-    <!-- Cart Summary Column -->
-    <div class="checkout-card" id="cartCard">
-      <h2 class="checkout-title">Review Order</h2>
-      <div id="cartContent">
-        <!-- Injected Dynamically -->
-      </div>
-    </div>
+  <!-- ============ ORDER FORM ============ -->
+  <main class="order-page">
+    <div class="order-card" id="orderCard">
+      <span class="kicker">Order Online</span>
+      <h1 class="order-title">Place Your Order</h1>
+      <p class="order-subtitle">Write what you'd like to order and we'll have it ready for you. Pay at the restaurant.</p>
 
-    <!-- Details/Checkout Form Column -->
-    <div class="checkout-card" id="formCard">
-      <h2 class="checkout-title">Customer Details</h2>
-      <form id="checkoutForm" class="checkout-form-section" novalidate>
+      <form id="orderForm" class="order-form" novalidate>
         <!-- Mode Tabs -->
         <div class="mode-tabs">
-          <button type="button" class="mode-tab active" id="tabDineIn">Dine-In Table</button>
+          <button type="button" class="mode-tab active" id="tabDineIn">Dine-In</button>
           <button type="button" class="mode-tab" id="tabTakeaway">Takeaway Pickup</button>
         </div>
 
         <div class="field">
-          <label for="cName">Full Name</label>
-          <input type="text" id="cName" placeholder="Enter your name" required />
+          <label for="oName">Full Name <span style="color:var(--terracotta)">*</span></label>
+          <input type="text" id="oName" placeholder="Enter your name" required />
         </div>
 
         <div class="field">
-          <label for="cPhone">Mobile Phone</label>
-          <input type="tel" id="cPhone" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required />
+          <label for="oPhone">Mobile Phone <span style="color:var(--terracotta)">*</span></label>
+          <input type="tel" id="oPhone" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required />
         </div>
 
-        <!-- Date and Time slots -->
+        <!-- Order Items Text -->
+        <div class="field">
+          <label for="oItems">What would you like to order? <span style="color:var(--terracotta)">*</span></label>
+          <textarea id="oItems" class="order-textarea" required
+            placeholder="Write your order here, e.g.&#10;2 x Butter Garlic Prawns&#10;1 x Sol Kadhi&#10;3 x Malvani Roti&#10;1 x Bombil Fry"></textarea>
+          <p class="order-help">List each item with quantity. We'll confirm availability when you arrive.</p>
+        </div>
+
+        <!-- Date and Time -->
         <div class="form-group-row">
           <div class="field">
-            <label for="cDate">Date</label>
-            <input type="date" id="cDate" required />
+            <label for="oDate">Date <span style="color:var(--terracotta)">*</span></label>
+            <input type="date" id="oDate" required />
           </div>
           <div class="field">
-            <label for="cSlot">Time Slot</label>
-            <select id="cSlot" required>
+            <label for="oSlot">Time Slot <span style="color:var(--terracotta)">*</span></label>
+            <select id="oSlot" required>
               <option value="" disabled selected>Select a slot</option>
               <!-- Injected Dynamically -->
             </select>
@@ -140,8 +209,8 @@
         <div id="dineInFields">
           <div class="form-group-row">
             <div class="field">
-              <label for="cPartySize">Party Size (Guests)</label>
-              <select id="cPartySize">
+              <label for="oPartySize">Party Size (Guests)</label>
+              <select id="oPartySize">
                 <option value="1">1 Person</option>
                 <option value="2">2 People</option>
                 <option value="3" selected>3 People</option>
@@ -153,23 +222,21 @@
               </select>
             </div>
             <div class="field">
-              <label for="cPref">Seating Preference</label>
-              <select id="cPref">
+              <label for="oPref">Seating Preference</label>
+              <select id="oPref">
                 <option value="Indoor">Indoor (Standard)</option>
                 <option value="AC">AC Dining Area</option>
-                <option value="Outdoor">Outdoor Seating</option>
-                <option value="Non-AC">Non-AC Area</option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="field">
-          <label for="cNotes">Special Instructions <small>(optional)</small></label>
-          <textarea id="cNotes" rows="2" placeholder="Dietary requests, table location details..."></textarea>
+          <label for="oNotes">Special Instructions <small>(optional)</small></label>
+          <textarea id="oNotes" rows="2" placeholder="Dietary requests, extra spicy, birthday occasion..."></textarea>
         </div>
 
-        <!-- Slot full warning container -->
+        <!-- Slot full warning -->
         <div class="slot-alert" id="slotWarning" hidden>
           ⚠️ This slot is fully booked for this party size. Please choose a different date or time.
         </div>
@@ -177,11 +244,37 @@
         <!-- Payment Notice -->
         <div class="pay-note">
           📌 <strong>Pay at Restaurant on Arrival</strong><br />
-          No online payment required. Pay via cash, card, or UPI when you arrive at the counter or dine in.
+          No online payment required. Pay via cash, card, or UPI when you arrive.
         </div>
 
         <button type="submit" class="btn btn--gold btn--block btn--lg" id="submitOrderBtn">Place Order</button>
       </form>
+    </div>
+
+    <!-- Success State (hidden initially) -->
+    <div class="order-card" id="successCard" hidden>
+      <div class="order-success-msg">
+        <div class="success-icon">🎉</div>
+        <h2>Order Received!</h2>
+        <p style="color:var(--ink-soft)">Your order has been sent to the kitchen team.</p>
+        <div class="order-ref" id="orderRefId">MG-O-XXXXXX</div>
+        <p style="color:var(--ink-soft); font-size:0.9rem; margin-top:0.5rem">Show this reference number at the restaurant.</p>
+
+        <div style="background:var(--cream-2); border-radius:10px; padding:1.2rem; margin-top:1.5rem; text-align:left">
+          <h4 style="font-family:var(--ff-head); color:var(--maroon); margin-bottom:0.6rem">Your Order</h4>
+          <pre id="orderSummaryText" style="white-space:pre-wrap; font-family:var(--ff-body); font-size:0.9rem; color:var(--ink); line-height:1.6; margin:0"></pre>
+          <div id="orderSummaryMeta" style="margin-top:0.8rem; font-size:0.82rem; color:var(--ink-soft)"></div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:0.8rem; margin-top:2rem">
+          <a id="btnWhatsApp" class="btn btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer">
+            💬 Send to Restaurant on WhatsApp
+          </a>
+          <a href="index.html" class="btn btn--ghost" style="color:var(--maroon); border-color:var(--maroon)">
+            &larr; Back to Home
+          </a>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -198,7 +291,7 @@
             <span class="brand__tag">Multi-Cuisine Seafood Restaurant</span>
           </span>
         </a>
-        <p class="footer__about">It’s not just a meal — it’s the taste of Malvan
+        <p class="footer__about">It's not just a meal — it's the taste of Malvan
           and the joy of conversations. Brought to Dombivli by Chef Nilesh Sawant.</p>
       </div>
 
@@ -214,6 +307,8 @@
         <h5 class="footer__h5--mt">Follow</h5>
         <div class="footer__social">
           <a href="https://www.instagram.com/malvanigajalee/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+          <span style="color:var(--ink-soft); margin:0 0.5rem">•</span>
+          <a href="admin.html" aria-label="Staff Portal">Staff Portal</a>
         </div>
       </div>
 
@@ -227,7 +322,7 @@
 
     <div class="footer__bottom">
       <p>© <span id="year"></span> Malvani Gajalee · Dombivli. All rights reserved.</p>
-      <p class="footer__credit">“गजाली” — joyful conversations, made flavorful.</p>
+      <p class="footer__credit">"गजाली" — joyful conversations, made flavorful.</p>
     </div>
   </footer>
 
@@ -245,21 +340,21 @@
       const navToggle = document.getElementById("navToggle");
       const nav = document.getElementById("nav");
       const navLinks = document.getElementById("navLinks");
-      const cartContent = document.getElementById("cartContent");
-      const checkoutForm = document.getElementById("checkoutForm");
-      
+      const orderForm = document.getElementById("orderForm");
+      const orderCard = document.getElementById("orderCard");
+      const successCard = document.getElementById("successCard");
+
       const tabDineIn = document.getElementById("tabDineIn");
       const tabTakeaway = document.getElementById("tabTakeaway");
       const dineInFields = document.getElementById("dineInFields");
       const slotWarning = document.getElementById("slotWarning");
-      
-      const dateInput = document.getElementById("cDate");
-      const slotSelect = document.getElementById("cSlot");
-      const partySizeSelect = document.getElementById("cPartySize");
+
+      const dateInput = document.getElementById("oDate");
+      const slotSelect = document.getElementById("oSlot");
+      const partySizeSelect = document.getElementById("oPartySize");
       const submitOrderBtn = document.getElementById("submitOrderBtn");
 
-      let cart = {};
-      let selectedMode = "dine-in"; // dine-in, takeaway
+      let selectedMode = "dine-in";
 
       // Mobile Menu
       if (navToggle) {
@@ -269,7 +364,7 @@
         });
       }
 
-      // Check date min limit (no past dates)
+      // Date min limit (no past dates)
       const todayISO = new Date().toISOString().split("T")[0];
       dateInput.min = todayISO;
       dateInput.value = todayISO;
@@ -280,7 +375,6 @@
         tabDineIn.classList.add("active");
         tabTakeaway.classList.remove("active");
         dineInFields.style.display = "block";
-        partySizeSelect.required = true;
         checkAvailability();
       });
 
@@ -289,102 +383,21 @@
         tabTakeaway.classList.add("active");
         tabDineIn.classList.remove("active");
         dineInFields.style.display = "none";
-        partySizeSelect.required = false;
         slotWarning.hidden = true;
         submitOrderBtn.disabled = false;
       });
 
-      // Load Cart data from sessionStorage
-      const loadCart = () => {
-        try {
-          const stored = sessionStorage.getItem("mg_cart");
-          if (stored) {
-            cart = JSON.parse(stored);
-          }
-        } catch (e) {
-          console.warn("Could not read cart:", e);
-        }
-
-        renderCart();
-      };
-
-      // Save Cart updates
-      const saveCart = () => {
-        try {
-          sessionStorage.setItem("mg_cart", JSON.stringify(cart));
-        } catch (e) {
-          console.warn("Could not save cart:", e);
-        }
-        renderCart();
-      };
-
-      // Render cart list and quantity adjusters
-      const renderCart = () => {
-        const itemIds = Object.keys(cart);
-        if (itemIds.length === 0) {
-          cartContent.innerHTML = `
-            <div class="cart-empty-state">
-              <p style="margin-bottom:1.5rem">Your cart is empty.</p>
-              <a href="menu.html" class="btn btn--maroon">Go back to Menu</a>
-            </div>
-          `;
-          // Hide form if cart is empty
-          document.getElementById("formCard").style.display = "none";
-          document.getElementById("checkoutContainer").style.gridTemplateColumns = "1fr";
-          return;
-        }
-
-        let html = '<div class="cart-list">';
-        itemIds.forEach(id => {
-          html += `
-            <div class="cart-item">
-              <div class="cart-item__info">
-                <h4>${cart[id].name}</h4>
-              </div>
-              <div class="stepper">
-                <button class="stepper-btn btn-dec" data-id="${id}">-</button>
-                <span class="stepper-val">${cart[id].qty}</span>
-                <button class="stepper-btn btn-inc" data-id="${id}">+</button>
-              </div>
-            </div>
-          `;
-        });
-        html += '</div>';
-        cartContent.innerHTML = html;
-
-        // Hook up steppers
-        cartContent.querySelectorAll(".btn-inc").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const id = btn.getAttribute("data-id");
-            cart[id].qty++;
-            saveCart();
-          });
-        });
-
-        cartContent.querySelectorAll(".btn-dec").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const id = btn.getAttribute("data-id");
-            cart[id].qty--;
-            if (cart[id].qty <= 0) {
-              delete cart[id];
-            }
-            saveCart();
-          });
-        });
-      };
-
-      // Generate time slots based on service windows: Lunch 12:00 - 15:30, Dinner 19:00 - 23:00
+      // Generate time slots
       const updateSlots = () => {
         const selectedDate = dateInput.value;
         const isToday = selectedDate === todayISO;
-        
+
         const now = new Date();
-        const currentHour = now.getHours();
         const currentMinute = now.getMinutes();
 
         const lunchSlots = ["12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
         const dinnerSlots = ["19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00"];
-        
+
         const allSlots = [...lunchSlots, ...dinnerSlots];
 
         slotSelect.innerHTML = '<option value="" disabled selected>Select a slot</option>';
@@ -394,18 +407,12 @@
           const slotHour = parseInt(hourStr, 10);
           const slotMin = parseInt(minStr, 10);
 
-          // If date is today, filter out past slots
           if (isToday) {
-            // Buffer: block slots starting within the next 15 minutes
             const slotTime = new Date();
             slotTime.setHours(slotHour, slotMin, 0, 0);
-
             const comparisonTime = new Date();
             comparisonTime.setMinutes(currentMinute + 15);
-
-            if (slotTime < comparisonTime) {
-              return; // Skip past/near slots for today
-            }
+            if (slotTime < comparisonTime) return;
           }
 
           const opt = document.createElement("option");
@@ -415,10 +422,10 @@
         });
       };
 
-      // Table availability check (Dine-in only)
+      // Availability check (Dine-in)
       const checkAvailability = async () => {
         if (selectedMode !== "dine-in") return;
-        
+
         const date = dateInput.value;
         const slot = slotSelect.value;
         const partySize = partySizeSelect.value;
@@ -445,7 +452,7 @@
         }
       };
 
-      // Listeners for slot triggers
+      // Listeners
       dateInput.addEventListener("change", () => {
         updateSlots();
         checkAvailability();
@@ -453,78 +460,77 @@
       slotSelect.addEventListener("change", checkAvailability);
       partySizeSelect.addEventListener("change", checkAvailability);
 
-      // Handle checkout submit
-      checkoutForm.addEventListener("submit", async (e) => {
+      // Format slot time for display
+      const formatSlotTime = (slot) => {
+        if (!slot) return "";
+        const [h, m] = slot.split(":");
+        const hour = parseInt(h, 10);
+        return hour >= 12 ? `${hour === 12 ? 12 : hour - 12}:${m} PM` : `${hour}:${m} AM`;
+      };
+
+      // Handle order submit
+      orderForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Basic inputs validations
-        if (!checkoutForm.checkValidity()) {
-          checkoutForm.reportValidity();
+        if (!orderForm.checkValidity()) {
+          orderForm.reportValidity();
           return;
         }
 
-        const name = document.getElementById("cName").value.trim();
-        const phone = document.getElementById("cPhone").value.trim();
+        const name = document.getElementById("oName").value.trim();
+        const phone = document.getElementById("oPhone").value.trim();
+        const orderText = document.getElementById("oItems").value.trim();
         const date = dateInput.value;
         const slot = slotSelect.value;
-        const notes = document.getElementById("cNotes").value.trim();
+        const notes = document.getElementById("oNotes").value.trim();
 
-        if (Object.keys(cart).length === 0) {
-          alert("Your cart is empty.");
+        if (!orderText) {
+          alert("Please write what you'd like to order.");
           return;
         }
 
         submitOrderBtn.disabled = true;
         submitOrderBtn.textContent = "Processing Order...";
 
-        // Format cart items for db
-        const items = Object.keys(cart).map(id => ({
-          itemId: id,
-          name: cart[id].name,
-          qty: cart[id].qty
-        }));
-
         try {
           if (window.dbService) {
-            // Place order
+            // Build items array from text (one entry with full text)
+            const items = [{ itemId: "text-order", name: orderText, qty: 1 }];
+
             const orderData = {
               mode: selectedMode,
               items: items,
+              orderText: orderText,
               customerName: name,
               customerPhone: phone,
               scheduledDate: date,
               scheduledSlot: slot,
-              seatingPreference: selectedMode === "dine-in" ? document.getElementById("cPref").value : null,
+              seatingPreference: selectedMode === "dine-in" ? document.getElementById("oPref").value : null,
               specialRequest: notes
             };
 
             const orderId = await window.dbService.addOrder(orderData);
             localStorage.setItem("mg_last_order_id", orderId);
 
+            // If dine-in, create linked reservation
             if (selectedMode === "dine-in") {
-              // Create linked table reservation
               const reservationData = {
                 customerName: name,
                 customerPhone: phone,
                 date: date,
                 slot: slot,
                 partySize: parseInt(partySizeSelect.value, 10),
-                seatingPreference: document.getElementById("cPref").value,
+                seatingPreference: document.getElementById("oPref").value,
                 specialRequest: notes,
                 linkedOrderId: orderId
               };
 
               const reservationId = await window.dbService.addReservation(reservationData);
               localStorage.setItem("mg_last_booking_id", reservationId);
-
-              // Link them
               await window.dbService.linkOrderAndReservation(orderId, reservationId);
             }
 
-            // Clear Cart session
-            sessionStorage.removeItem("mg_cart");
-
-            // Redirect to confirmation
+            // Redirect to confirmation page
             window.location.href = `confirmation.html?type=order&id=${orderId}`;
           }
         } catch (error) {
@@ -539,8 +545,7 @@
       const yearEl = document.getElementById("year");
       if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-      // Run
-      loadCart();
+      // Init
       updateSlots();
     })();
   </script>

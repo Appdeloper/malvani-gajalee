@@ -115,13 +115,13 @@ const seedMenuItems = [
 
 const seedTables = [
   { id: "T1", tableNumber: "T1", capacity: 2, seatingType: "AC", isActive: true },
-  { id: "T2", tableNumber: "T2", capacity: 2, seatingType: "Non-AC", isActive: true },
+  { id: "T2", tableNumber: "T2", capacity: 2, seatingType: "Indoor", isActive: true },
   { id: "T3", tableNumber: "T3", capacity: 4, seatingType: "AC", isActive: true },
   { id: "T4", tableNumber: "T4", capacity: 4, seatingType: "Indoor", isActive: true },
-  { id: "T5", tableNumber: "T5", capacity: 6, seatingType: "Outdoor", isActive: true },
+  { id: "T5", tableNumber: "T5", capacity: 6, seatingType: "Indoor", isActive: true },
   { id: "T6", tableNumber: "T6", capacity: 6, seatingType: "AC", isActive: true },
   { id: "T7", tableNumber: "T7", capacity: 8, seatingType: "Indoor", isActive: true },
-  { id: "T8", tableNumber: "T8", capacity: 8, seatingType: "Outdoor", isActive: true }
+  { id: "T8", tableNumber: "T8", capacity: 8, seatingType: "AC", isActive: true }
 ];
 
 // Helper to seed Firestore if empty
@@ -179,8 +179,41 @@ if (!isMockMode) {
   if (!localStorage.getItem("mg_categories")) {
     localStorage.setItem("mg_categories", JSON.stringify(seedCategories));
   }
-  if (!localStorage.getItem("mg_tables")) {
+
+  let localTables = null;
+  try {
+    localTables = JSON.parse(localStorage.getItem("mg_tables"));
+  } catch (e) {}
+
+  const tablesNeedUpgrade = !localTables || localTables.some(t => 
+    t.seatingType === "Non-AC" || t.seatingType === "Outdoor"
+  );
+
+  if (tablesNeedUpgrade) {
     localStorage.setItem("mg_tables", JSON.stringify(seedTables));
+  }
+
+  // Upgrade bookings/reservations to migrate Non-AC -> Indoor and Outdoor -> AC
+  let localBookings = null;
+  try {
+    localBookings = JSON.parse(localStorage.getItem("mg_bookings"));
+  } catch (e) {}
+
+  if (localBookings && Array.isArray(localBookings)) {
+    let bookingsChanged = false;
+    localBookings.forEach(b => {
+      if (b.seatingPreference === "Non-AC") {
+        b.seatingPreference = "Indoor";
+        bookingsChanged = true;
+      }
+      if (b.seatingPreference === "Outdoor") {
+        b.seatingPreference = "AC";
+        bookingsChanged = true;
+      }
+    });
+    if (bookingsChanged) {
+      localStorage.setItem("mg_bookings", JSON.stringify(localBookings));
+    }
   }
 }
 
@@ -510,7 +543,8 @@ window.dbService = {
       id: orderId,
       orderNumber: orderId,
       mode: order.mode, // dine-in, takeaway
-      items: order.items, // Array of { itemId, name, qty }
+      items: order.items || [], // Array of { itemId, name, qty }
+      orderText: order.orderText || "", // Free-text order description
       customerName: order.customerName,
       customerPhone: order.customerPhone,
       scheduledDate: order.scheduledDate,

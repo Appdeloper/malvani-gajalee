@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malvani Gajalee · Staff Control Panel</title>
+  <title>Malvani Gajalee · Staff Portal</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -298,7 +298,7 @@
         <img src="images/logo.jpg" alt="Malvani Gajalee logo" onerror="this.src='images/logo.jpg'" />
         <div class="admin-logo__text">
           <span class="admin-logo__title">Malvani Gajalee</span>
-          <span class="admin-logo__subtitle">Staff Control Panel</span>
+          <span class="admin-logo__subtitle">Staff Portal</span>
         </div>
       </div>
       <div style="display:flex; gap:0.5rem">
@@ -425,9 +425,7 @@
               <label for="tableTypeInput">Seating Category</label>
               <select id="tableTypeInput" required>
                 <option value="AC">AC Dine Area</option>
-                <option value="Non-AC">Non-AC Area</option>
                 <option value="Indoor">Indoor (Standard)</option>
-                <option value="Outdoor">Outdoor Seating</option>
               </select>
             </div>
             <button type="submit" class="btn btn--gold btn--block" style="margin-top:0.8rem">Register Table</button>
@@ -790,7 +788,7 @@
           const scheduledText = `${o.scheduledDate} at ${formatSlotTime(o.scheduledSlot)}`;
 
           // WhatsApp handoff link builder
-          let itemsText = o.items.map(item => `- ${item.name} x ${item.qty}`).join("\n");
+          let itemsText = o.orderText ? o.orderText : (o.items ? o.items.map(item => `- ${item.name} x ${item.qty}`).join("\n") : "");
           const waMessage = `Hello ${o.customerName}! Your Malvani Gajalee order status is now updated:\n\nOrder ID: ${o.id}\nMode: ${o.mode.toUpperCase()}\nStatus: ${o.status.toUpperCase()}\nTiming: ${scheduledText}\nItems:\n${itemsText}\n\nPayment Mode: Pay at Restaurant`;
           const encodedWa = encodeURIComponent(waMessage);
           const cleanPhone = o.customerPhone.replace(/\D/g, "");
@@ -824,7 +822,11 @@
                 ${o.specialRequest ? `<br /><span style="font-style:italic; color:var(--terracotta)">Note: "${o.specialRequest}"</span>` : ""}
               </div>
               <div class="order-card__items">
-                ${o.items.map(item => `
+                ${o.orderText ? `
+                  <div class="order-card__item" style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5">
+                    ${o.orderText}
+                  </div>
+                ` : o.items.map(item => `
                   <div class="order-card__item">
                     <span>${item.name}</span>
                     <strong>x ${item.qty}</strong>
@@ -949,8 +951,9 @@
               <td data-label="Slot">${formatSlotTime(r.slot || r.time)}</td>
               <td data-label="Guests">${guestsText} People</td>
               <td data-label="Assigned Table">${tableAssignmentHTML}</td>
-              <td data-label="Requests" title="${notesText}">
-                <div style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">${notesText}</div>
+              <td data-label="Preference / Requests" title="Preference: ${r.seatingPreference || 'Indoor'} | Requests: ${notesText}">
+                <div><strong>${r.seatingPreference || 'Indoor'}</strong></div>
+                <div style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:0.8rem; color:var(--ink-soft)">${notesText}</div>
                 ${linkedFoodNote}
               </td>
               <td data-label="Status">
