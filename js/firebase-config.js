@@ -56,7 +56,7 @@ const seedMenuItems = [
     name: "Crispy Paneer Papdi",
     category: "starters-veg",
     description: "Paneer batons coated in crushed papad & poha, deep-fried golden and crisp, served with mint chutney.",
-    imageUrl: "images/kurkuri.jpg",
+    imageUrl: "images/paneer-papdi.jpg",
     isVeg: true,
     spiceLevel: "mild",
     tags: ["Chef's Special"],
@@ -165,6 +165,7 @@ if (!isMockMode) {
   } catch (e) {}
 
   const needsUpgrade = !localItems || localItems.some(item => {
+    if (item.id === "dish-1" && item.imageUrl === "images/kurkuri.jpg") return true;
     if (item.id === "dish-2" && item.imageUrl === "images/kurkuri.jpg") return true;
     if (item.id === "dish-3" && item.imageUrl === "images/tandoori.jpg") return true;
     if (item.id === "dish-4" && item.imageUrl === "images/curry.jpg") return true;
