@@ -270,23 +270,19 @@
   <div class="admin-lock" id="adminLock">
     <div class="lock-box">
       <h3 id="loginTitle">Staff Authentication</h3>
-      <p style="margin-bottom:1.5rem; color:var(--ink-soft); font-size:0.9rem" id="loginDesc">Please enter credentials to unlock the restaurant console.</p>
+      <p style="margin-bottom:1.5rem; color:var(--ink-soft); font-size:0.9rem" id="loginDesc">Please enter the security PIN to unlock the restaurant console.</p>
       
       <div id="credentialsForm">
         <div class="field" style="text-align:left">
-          <label for="adminEmail">Email Address</label>
-          <input type="email" id="adminEmail" placeholder="admin@gajalee.com" />
-        </div>
-        <div class="field" style="text-align:left">
-          <label for="adminPassword">Password</label>
-          <input type="password" id="adminPassword" placeholder="Enter password" />
+          <label for="adminPin">Security PIN</label>
+          <input type="password" id="adminPin" placeholder="Enter PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric" style="letter-spacing:0.3em; text-align:center" />
         </div>
         <button type="button" id="loginBtn" class="btn btn--maroon btn--block" style="margin-top:1rem">Unlock Dashboard</button>
       </div>
 
-      <p id="lockError" style="color:var(--terracotta); margin-top:1rem; font-size:0.85rem;" hidden>Authentication failed. Please check credentials.</p>
+      <p id="lockError" style="color:var(--terracotta); margin-top:1rem; font-size:0.85rem;" hidden>Authentication failed. Please check PIN.</p>
       <p id="mockNote" style="font-size:0.75rem; color:var(--ink-soft); margin-top:1.5rem; border-top:1px dashed #ddd; padding-top:0.8rem">
-        💡 <strong>Mock Mode Active</strong>: Log in with <code>admin@gajalee.com</code> / <code>admin1098</code>
+        💡 <strong>Staff Portal</strong>: Enter the 6-digit PIN to access the dashboard.
       </p>
     </div>
   </div>
@@ -540,8 +536,7 @@
 
       // Elements
       const adminLock = document.getElementById("adminLock");
-      const adminEmail = document.getElementById("adminEmail");
-      const adminPassword = document.getElementById("adminPassword");
+      const adminPin = document.getElementById("adminPin");
       const loginBtn = document.getElementById("loginBtn");
       const logoutBtn = document.getElementById("logoutBtn");
       const lockError = document.getElementById("lockError");
@@ -564,30 +559,29 @@
 
       // Security Auth Lock Logic
       const handleLogin = async () => {
-        const email = adminEmail.value.trim();
-        const password = adminPassword.value;
+        const pin = adminPin.value.trim();
 
-        if (!email || !password) {
-          lockError.textContent = "Please fill in all credentials.";
+        if (!pin) {
+          lockError.textContent = "Please enter the security PIN.";
           lockError.hidden = false;
           return;
         }
 
         try {
           if (window.dbService) {
-            await window.dbService.signIn(email, password);
+            await window.dbService.signInWithPin(pin);
             adminLock.style.display = "none";
             lockError.hidden = true;
             initDashboard();
           }
         } catch (e) {
-          lockError.textContent = "Authentication failed. Incorrect email or password.";
+          lockError.textContent = "Authentication failed. Incorrect security PIN.";
           lockError.hidden = false;
         }
       };
 
       loginBtn.addEventListener("click", handleLogin);
-      adminPassword.addEventListener("keypress", (e) => {
+      adminPin.addEventListener("keypress", (e) => {
         if (e.key === "Enter") handleLogin();
       });
 

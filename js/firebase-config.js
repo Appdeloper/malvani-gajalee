@@ -229,11 +229,24 @@ window.dbService = {
       return await auth.signInWithEmailAndPassword(email, password);
     } else {
       // Mock Auth check
-      if (email === "admin@gajalee.com" && password === "admin1098") {
+      if (email === "admin@gajalee.com" && (password === "admin1098" || password === "109812")) {
         sessionStorage.setItem("mg_authenticated", "true");
         return { user: { email: "admin@gajalee.com" } };
       } else {
         throw new Error("Invalid credentials.");
+      }
+    }
+  },
+
+  signInWithPin: async function(pin) {
+    if (!isMockMode && auth) {
+      return await auth.signInWithEmailAndPassword("admin@gajalee.com", pin);
+    } else {
+      if (pin === "109812") {
+        sessionStorage.setItem("mg_authenticated", "true");
+        return { user: { email: "admin@gajalee.com" } };
+      } else {
+        throw new Error("Invalid security PIN.");
       }
     }
   },
